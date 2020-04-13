@@ -35,8 +35,8 @@ var config = {
     	this.add.image(14*16, 18*16, 'background');
     	this.map = this.make.tilemap({key: 'map'});
     	const tileset = this.map.addTilesetImage('coltiles');
-    	this.layer = this.map.createStaticLayer(1, tileset);
-    	this.map.setLayer(1);
+    	this.layer = this.map.createStaticLayer('MapLayer', tileset);
+    	this.map.setLayer('MapLayer');
     	this.layer.setAlpha(0.5);
     	this.directions = new Array();
 
