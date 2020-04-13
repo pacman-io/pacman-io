@@ -48,6 +48,7 @@ var config = {
     	this.physics.add.collider(this.player, this.layer);
     	this.cursors = this.input.keyboard.createCursorKeys();
     	this.current_direction = Phaser.RIGHT;
+    	this.select_direction = Phaser.RIGHT;
 
 
     }
@@ -58,23 +59,28 @@ var config = {
     	this.directions[Phaser.LEFT] = this.map.getTileAt(this.current_tile.x-1, this.current_tile.y, true);
     	this.directions[Phaser.RIGHT] = this.map.getTileAt(this.current_tile.x+1, this.current_tile.y, true);
     	this.directions[Phaser.UP] = this.map.getTileAt(this.current_tile.x, this.current_tile.y-1, true);
-    	this.directions[Phaser.DOWN] = this.map.getTileAt(this.current_tile.x, this.current_tile.y-1, true);
+    	this.directions[Phaser.DOWN] = this.map.getTileAt(this.current_tile.x, this.current_tile.y+1, true);
 		
-		var select_direction = this.current_direction;
+    	
 		if(this.cursors.left.isDown)
-			select_direction = Phaser.LEFT;
+			this.select_direction = Phaser.LEFT;
 		else if(this.cursors.right.isDown)
-			select_direction = Phaser.RIGHT;
+			this.select_direction = Phaser.RIGHT;
 		else if(this.cursors.up.isDown)
-			select_direction = Phaser.UP;
+			this.select_direction = Phaser.UP;
 		else if(this.cursors.down.isDown)
-			select_direction = Phaser.DOWN;
+			this.select_direction = Phaser.DOWN;
 
-		if(this.current_tile.index == 5 && select_direction != this.current_direction && this.directions[select_direction] != null && this.directions[select_direction].index != 1)
+		if(this.current_tile.index == 5 
+				&& this.select_direction != this.current_direction 
+				&& this.select_direction + this.current_direction != 11
+				&& this.select_direction + this.current_direction != 15
+				&& this.directions[this.select_direction] != null 
+				&& this.directions[this.select_direction].index != 1)
 		{
-			if(Phaser.Math.Fuzzy.Equal(this.player.x, this.current_tile.getCenterX(), 15) && Phaser.Math.Fuzzy.Equal(this.player.y, this.current_tile.getCenterY(), 15))
+			if(Phaser.Math.Fuzzy.Equal(this.player.x, this.current_tile.getCenterX(), 1) && Phaser.Math.Fuzzy.Equal(this.player.y, this.current_tile.getCenterY(), 1))
 			{
-				this.current_direction = select_direction;
+				this.current_direction = this.select_direction;
 				this.player.setPosition(this.current_tile.getCenterX(), this.current_tile.getCenterY());
 			}
 		}
@@ -83,22 +89,22 @@ var config = {
 		if(this.current_direction == Phaser.LEFT)
 		{
 			this.player.setVelocityY(0);
-			this.player.setVelocityX(-32);
+			this.player.setVelocityX(-60);
 		}
 		else if(this.current_direction == Phaser.RIGHT)
 		{
 			this.player.setVelocityY(0);
-			this.player.setVelocityX(32);
+			this.player.setVelocityX(60);
 		}
 		else if(this.current_direction == Phaser.UP)
 		{
 			this.player.setVelocityX(0);
-			this.player.setVelocityY(-32);
+			this.player.setVelocityY(-60);
 		}
 		else if(this.current_direction == Phaser.DOWN)
 		{
 			this.player.setVelocityX(0);
-			this.player.setVelocityY(32);
+			this.player.setVelocityY(60);
 		}
 
     }
