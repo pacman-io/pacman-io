@@ -37,20 +37,29 @@ var config = {
     	const tileset = this.map.addTilesetImage('coltiles');
     	this.layer = this.map.createStaticLayer('MapLayer', tileset);
     	this.map.setLayer('MapLayer');
-    	this.layer.setAlpha(0.5);
+    	
     	this.directions = new Array();
 
     	spawnpoint = this.map.tileToWorldXY(13, 26);
+    	this.layer.setAlpha(0.5);
     	this.layer.setCollisionByProperty({collides: true});
 
     	this.player = this.physics.add.sprite(spawnpoint.x+8, spawnpoint.y+8, 'sprites');
     	this.player.body.setSize(16,16, true);
+    	
     	this.physics.add.collider(this.player, this.layer);
+    	
     	this.cursors = this.input.keyboard.createCursorKeys();
     	this.current_direction = Phaser.RIGHT;
     	this.select_direction = Phaser.RIGHT;
 
-
+    	this.anims.create({
+            key: 'pacman_move',
+            frames: this.anims.generateFrameNumbers('sprites', { start: 0, end: 2 }),
+            frameRate: 15,
+            repeat: -1,
+            yoyo: true
+        });
     }
 
     function update ()
@@ -89,22 +98,30 @@ var config = {
 		if(this.current_direction == Phaser.LEFT)
 		{
 			this.player.setVelocityY(0);
-			this.player.setVelocityX(-60);
+			this.player.setVelocityX(-80);
+			this.player.setAngle(180);
+			this.player.anims.play('pacman_move', true);
 		}
 		else if(this.current_direction == Phaser.RIGHT)
 		{
 			this.player.setVelocityY(0);
-			this.player.setVelocityX(60);
+			this.player.setVelocityX(80);
+			this.player.setAngle(0);
+			this.player.anims.play('pacman_move', true);
 		}
 		else if(this.current_direction == Phaser.UP)
 		{
 			this.player.setVelocityX(0);
-			this.player.setVelocityY(-60);
+			this.player.setVelocityY(-80);
+			this.player.setAngle(270);
+			this.player.anims.play('pacman_move', true);
 		}
 		else if(this.current_direction == Phaser.DOWN)
 		{
 			this.player.setVelocityX(0);
-			this.player.setVelocityY(60);
+			this.player.setVelocityY(80);
+			this.player.setAngle(90);
+			this.player.anims.play('pacman_move', true);
 		}
 
     }
