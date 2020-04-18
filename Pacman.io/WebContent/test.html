@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+</head>
+<body>
+	<script>
+		var socket = io('http://localhost:9092');
+		socket.on('connect', function(){
+			console.log('Connected');
+		});
+	</script>
+</body>
+</html>
