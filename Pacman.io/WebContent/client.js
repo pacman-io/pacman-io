@@ -24,6 +24,7 @@ Client.socket.on('allpacmans', function(data) {
     for (var i = 0; i < data.length; i++) {
         game.addNewPacman(data[i].x, data[i].y, data[i].id);
     }
+    //something
     if (data.length > 0)
         game.setCurrentPacman(data[data.length - 1].id);
 })
@@ -32,8 +33,10 @@ Client.socket.on('allghosts', function(data) {
     for (var i = 0; i < data.length; i++) {
         game.addNewGhost(data[i].x, data[i].y, data[i].id);
     }
-    if (data.length > 0)
-        game.setCurrentGhost(data[data.length - 1].id);
+    if (data.length > 0){
+    	game.setCurrentGhost(data[data.length - 1].id);
+    }
+        
 })
 
 Client.socket.on('remove', function(id) {
