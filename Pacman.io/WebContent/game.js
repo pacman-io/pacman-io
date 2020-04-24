@@ -48,7 +48,7 @@ function create() {
     this.layer.setAlpha(0.5);
     this.layer.setCollisionByProperty({ collides: true });
 
-    this.playerMap = {};
+    this.pacmanMap = {};
     this.ghostMap = {};
     Client.createNewPlayer();
 
@@ -200,7 +200,14 @@ function update() {
             (x != this.player.oldPosition.x ||
                 y != this.player.oldPosition.y ||
                 angle != this.player.oldPosition.angle)) {
-            Client.updatePlayer({ x: x, y: y, angle: angle, id: this.player.id });
+            Client.updatePlayer({
+                x: x,
+                y: y,
+                angle: angle,
+                id: this.player.id,
+                type: this.player.type,
+                animation: this.player.anims.getCurrentKey()
+            });
         }
 
         this.player.oldPosition = {
@@ -277,7 +284,7 @@ function update() {
             } else if (this.current_direction == Phaser.DOWN) {
                 this.player.setVelocityX(0);
                 this.player.setVelocityY(this.GHOST_VELOCITY);
-                this.player.anims.play('pacman_move_down', true);
+                this.player.anims.play('blinky_move_down', true);
             }
         }
     }
@@ -286,10 +293,10 @@ function update() {
 
 game.addNewPacman = function(x, y, id) {
     console.log(id);
-    this.scene.scenes[0].playerMap[id] = this.scene.scenes[0].physics.add.sprite(x, y, 'sprites');
-    this.scene.scenes[0].playerMap[id].body.setSize(16, 16, true);
-    this.scene.scenes[0].playerMap[id].anims.play('pacman_move', true);
-    this.scene.scenes[0].physics.add.collider(this.scene.scenes[0].playerMap[id], this.scene.scenes[0].layer);
+    this.scene.scenes[0].pacmanMap[id] = this.scene.scenes[0].physics.add.sprite(x, y, 'sprites');
+    this.scene.scenes[0].pacmanMap[id].body.setSize(16, 16, true);
+    this.scene.scenes[0].pacmanMap[id].anims.play('pacman_move', true);
+    this.scene.scenes[0].physics.add.collider(this.scene.scenes[0].pacmanMap[id], this.scene.scenes[0].layer);
 }
 
 game.addNewGhost = function(x, y, id) {
@@ -301,7 +308,7 @@ game.addNewGhost = function(x, y, id) {
 }
 
 game.setCurrentPacman = function(index) {
-    this.scene.scenes[0].player = this.scene.scenes[0].playerMap[index];
+    this.scene.scenes[0].player = this.scene.scenes[0].pacmanMap[index];
     this.scene.scenes[0].player.id = index;
     this.scene.scenes[0].player.type = "pacman";
 }
@@ -312,13 +319,24 @@ game.setCurrentGhost = function(index) {
     this.scene.scenes[0].player.type = "ghost";
 }
 
-game.removePlayer = function(id) {
-    this.scene.scenes[0].playerMap[id].destroy();
-    delete this.scene.scenes[0].playerMap[id];
+game.removePacman = function(id) {
+    this.scene.scenes[0].pacmanMap[id].destroy();
+    delete this.scene.scenes[0].pacmanMap[id];
 }
 
-game.updatePlayer = function(otherPlayer) {
-    this.scene.scenes[0].playerMap[otherPlayer.id].x = otherPlayer.x;
-    this.scene.scenes[0].playerMap[otherPlayer.id].y = otherPlayer.y;
-    this.scene.scenes[0].playerMap[otherPlayer.id].angle = otherPlayer.angle;
+game.removeGhost = function(id) {
+    this.scene.scenes[0].ghostMap[id].destroy();
+    delete this.scene.scenes[0].ghostMap[id];
+}
+
+game.updatePacman = function(otherPlayer) {
+    this.scene.scenes[0].pacmanMap[otherPlayer.id].x = otherPlayer.x;
+    this.scene.scenes[0].pacmanMap[otherPlayer.id].y = otherPlayer.y;
+    this.scene.scenes[0].pacmanMap[otherPlayer.id].angle = otherPlayer.angle;
+}
+
+game.updateGhost = function(otherPlayer) {
+    this.scene.scenes[0].ghostMap[otherPlayer.id].x = otherPlayer.x;
+    this.scene.scenes[0].ghostMap[otherPlayer.id].y = otherPlayer.y;
+    this.scene.scenes[0].ghostMap[otherPlayer.id].anims.play(otherPlayer.animation, true);
 }
