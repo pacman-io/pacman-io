@@ -52,8 +52,21 @@ function create() {
     
     
 
-    var dotSprites = this.map.createFromTiles(2, null, {key: 'sprites' }, layer='DotLayer');
-    this.dots = this.physics.add.group(dotSprites);
+    var dotSprites = this.map.createFromTiles(2, null, {key: 'sprites'},this, this.cameras.main, layer='DotLayer');
+    this.dots = this.physics.add.group(dotSprites, 
+    		{
+		        classType: Phaser.GameObjects.Sprite,
+		        defaultKey: null,
+		        defaultFrame: null,
+		        active: true,
+		        maxSize: -1,
+		        runChildUpdate: false,
+		        createCallback: null,
+		        removeCallback: null,
+		        createMultipleCallback: null
+    		}
+    
+    );
 
     
     const tileset = this.map.addTilesetImage('coltiles');
