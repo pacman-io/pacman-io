@@ -36,10 +36,20 @@ var config = {
     function create ()
     {
     	this.add.image(14*16, 18*16, 'background');
-    	this.map = this.make.tilemap({key: 'map'});
+    	this.map = this.make.tilemap({key: 'map'}); 
     	const tileset = this.map.addTilesetImage('coltiles');
+    	//tile Indexes: 2 for small dot, 3 for big dot
+    	
     	this.layer = this.map.createStaticLayer('MapLayer', tileset);
+    	
+    	
+    	this.dots = this.add.physicsGroup();
+
+    	this.map.createFromTiles(2, null /*this.safetile*/, 'dot', this.layer, this.dots);
+    	
+    	
     	this.map.setLayer('MapLayer');
+    	
     	
     	this.directions = new Array();
 
@@ -63,12 +73,23 @@ var config = {
             repeat: -1,
             yoyo: true
         });
-    }
+    };
+    eatDot = function (pacman, dot) {
 
+        dot.kill();
+
+        if (this.dots.total === 0)
+        {
+            this.dots.callAll('revive');
+        }
+
+    }
     function update ()
     {
+    	this.physics.arcade.overlap(this.player, this.dots, this.eatDot, null, this);
+    	
     	if(this.player)
-    		{
+    	{
     		var x = this.player.x;
         	var y = this.player.y;
         	var angle = this.player.angle;
@@ -143,7 +164,7 @@ var config = {
     			this.player.setAngle(90);
     			this.player.anims.play('pacman_move', true);
     		}
-    		}
+    	}
     	
     }
     
