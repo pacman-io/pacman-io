@@ -239,6 +239,12 @@ function update() {
 
 
         //Detect key input, turning point & turn (set current_position to select_direction)
+        if(this.player.x > this.map.widthInPixels){
+        	this.player.setPosition(1, this.player.y);
+        }
+        else if(this.player.x < 0){
+        	this.player.setPosition(this.map.widthInPixels-1, this.player.y);
+        }
         this.current_tile = this.map.getTileAtWorldXY(this.player.getCenter().x, this.player.getCenter().y, true);
         this.directions[Phaser.LEFT] = this.map.getTileAt(this.current_tile.x - 1, this.current_tile.y, true);
         this.directions[Phaser.RIGHT] = this.map.getTileAt(this.current_tile.x + 1, this.current_tile.y, true);
