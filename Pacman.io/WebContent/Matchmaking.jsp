@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html><head><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJlacca7bdbb52031b2f472e38f944f43b2"/>
   <meta charset="utf-8">
-  <title>Matchmaking</title>
+  <title>PacMan.IO | Matchmaking</title>
   <meta name="generator" content="Google Web Designer 8.0.1.0401">
   <style type="text/css" id="gwd-text-style">p {
     margin: 0px;
@@ -157,6 +157,20 @@ body {
     left: 0%;
 }</style>
 </head>
+
+<script>
+	function Login() {
+		  document.getElementsByName("favourites")[0].submit();
+	}
+	
+	function SignUp() {
+		  document.getElementsByName("favourites")[0].submit();
+	}
+	
+	function PlayAsGuest() {
+		  document.getElementsByName("favourites")[0].submit();
+	}
+</script>
 
 <body class="htmlNoPages">
   <img src="PacManBackGround.jpg" id="PacManBackGround" class="gwd-img-40t8">

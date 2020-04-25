@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html><head><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJl4aa50a2bf503158e7d22a80da45de696"/>
   <meta charset="utf-8">
-  <title>undefined</title>
+  <title>PacMan.IO | Results</title>
   <meta name="generator" content="Google Web Designer 8.0.1.0401">
   <style type="text/css" id="gwd-text-style">p {
     margin: 0px;
@@ -31,7 +31,6 @@ body {
     -moz-perspective: 1400px;
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
 }
 .gwd-img-a9v2 {
     position: absolute;
@@ -125,6 +124,20 @@ body {
     text-align: center;
 }</style>
 </head>
+
+<script>
+	function GetReults() {
+		  document.getElementsByName("favourites")[0].submit();
+	}
+	
+	function SignOut() {
+		  document.getElementsByName("favourites")[0].submit();
+	}
+	
+	function PlayAgain() {
+		  document.getElementsByName("favourites")[0].submit();
+	}
+</script>
 
 <body class="htmlNoPages">
   <img src="PacManBackGround.jpg" id="PacManBackGround" class="gwd-img-a9v2">

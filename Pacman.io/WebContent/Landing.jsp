@@ -23,7 +23,7 @@
     top: 1px;
 }</style>
   <meta charset="utf-8">
-  <title>Login</title>
+  <title>PacMan.IO</title>
   <meta name="generator" content="Google Web Designer 8.0.1.0401">
   <style type="text/css" id="gwd-text-style">p {
     margin: 0px;
@@ -283,6 +283,20 @@ input[type="submit"]:hover {
     -moz-transform: translate(-50%, -50%);
 }</style>
 </head>
+
+<script>
+	function Login() {
+		  document.getElementsByName("favourites")[0].submit();
+	}
+	
+	function SignUp() {
+		  document.getElementsByName("favourites")[0].submit();
+	}
+	
+	function PlayAsGuest() {
+		  document.getElementsByName("favourites")[0].submit();
+	}
+</script>
 
 <body class="htmlNoPages">
   <img src="PacManBackGround.jpg" id="PacManBackGround" class="gwd-img-o354">
