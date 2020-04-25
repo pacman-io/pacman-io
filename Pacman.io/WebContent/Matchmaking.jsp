@@ -80,7 +80,7 @@ body {
     border-image-repeat: stretch;
     border-color: rgb(120, 137, 169);
     border-style: solid;
-    border-width: 1px;
+    border-width: 0px;
 }</style>
   <style>.myButton {
     box-shadow: rgb(21, 100, 173) 3px 4px 0px 0px;
