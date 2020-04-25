@@ -27,23 +27,17 @@ function preload() {
     this.load.image('coltiles', 'assets/images/coltiles.png');
     this.load.image('maze', 'assets/images/maze.png');
     this.load.tilemapTiledJSON('map', 'assets/tilemaps/map.json');
-    this.load.spritesheet('sprites', 'assets/images/sprites.png', { frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('sprites', 'assets/images/sprites32.png', { frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('sprites2', 'assets/images/sprites.png', { frameWidth: 32, frameHeight: 32 });
 }
  
-eatDot = function (pacman, dot) {
 
-    dot.kill();
-
-    if (this.dots.total === 0) //win
-    {
-        //this.dots.callAll('revive');
-        alert("you won!");
-    }
-
-}
 
 
 function create() {
+	
+	
+	
     this.PACMAN_VELOCITY = 80;
     this.GHOST_VELOCITY = 75;
 
@@ -52,21 +46,14 @@ function create() {
     
     
 
-    var dotSprites = this.map.createFromTiles(2, null, {key: 'sprites'},this, this.cameras.main, layer='DotLayer');
-    this.dots = this.physics.add.group(dotSprites, 
-    		{
-		        classType: Phaser.GameObjects.Sprite,
-		        defaultKey: null,
-		        defaultFrame: null,
-		        active: true,
-		        maxSize: -1,
-		        runChildUpdate: false,
-		        createCallback: null,
-		        removeCallback: null,
-		        createMultipleCallback: null
-    		}
+    var dotSprites = this.map.createFromTiles(2, null, {key: 'sprites', frame: 100}, this, this.cameras.main, layer='DotLayer');
+    this.physics.world.enable(dotSprites);
+    for(var i=0; i<dotSprites.length; i++){
+    	dotSprites[i].body.setSize(1, 1, true);
+    }
+    this.dots = this.physics.add.group(dotSprites);
+    this.dots.incXY(8, 8); //Dot offset
     
-    );
 
     
     const tileset = this.map.addTilesetImage('coltiles');
@@ -86,10 +73,11 @@ function create() {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.current_direction = Phaser.RIGHT;
     this.select_direction = Phaser.RIGHT;
+    
 
     this.anims.create({
         key: 'pacman_move',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 0, end: 2 }),
+        frames: this.anims.generateFrameNumbers('sprites2', { start: 0, end: 2 }),
         frameRate: 15,
         repeat: -1,
         yoyo: true
@@ -97,126 +85,126 @@ function create() {
 
     this.anims.create({
         key: 'blinky_move_right',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 56, end: 57 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 22, end: 23 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'blinky_move_left',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 58, end: 59 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 24, end: 25 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'blinky_move_up',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 60, end: 61 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 26, end: 27 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'blinky_move_down',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 62, end: 63 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 28, end: 29 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'speedy_move_right',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 70, end: 71 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 33, end: 34 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'speedy_move_left',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 72, end: 73 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 35, end: 36 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'speedy_move_up',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 74, end: 75 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 37, end: 38 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'speedy_move_down',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 76, end: 77 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 39, end: 40 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'inky_move_right',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 84, end: 85 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 44, end: 45 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'inky_move_left',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 86, end: 87 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 46, end: 47 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'inky_move_up',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 88, end: 89 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 48, end: 49 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'inky_move_down',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 90, end: 91 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 50, end: 51 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'clyde_move_right',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 98, end: 99 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 55, end: 56 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'clyde_move_left',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 100, end: 101 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 57, end: 58 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'clyde_move_up',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 102, end: 103 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 59, end: 60 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'clyde_move_down',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 104, end: 105 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 61, end: 62 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'ghost_fear_blue',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 64, end: 65 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 77, end: 78 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
         key: 'ghost_fear_white',
-        frames: this.anims.generateFrameNumbers('sprites', { start: 66, end: 67 }),
+        frames: this.anims.generateFrameNumbers('sprites', { start: 79, end: 80 }),
         frameRate: 15,
         repeat: -1,
     })
@@ -225,7 +213,6 @@ function create() {
 function update() {
     if (this.player) {
     	//RODDUR CHANGE
-    	this.physics.arcade.overlap(this.player, this.dots, this.eatDot, null, this);
     	
         var x = this.player.x;
         var y = this.player.y;
@@ -276,6 +263,7 @@ function update() {
             if (Phaser.Math.Fuzzy.Equal(this.player.x, this.current_tile.getCenterX(), 1) && Phaser.Math.Fuzzy.Equal(this.player.y, this.current_tile.getCenterY(), 1)) {
                 this.current_direction = this.select_direction;
                 this.player.setPosition(this.current_tile.getCenterX(), this.current_tile.getCenterY());
+                this.player.body.reset(this.current_tile.getCenterX(), this.current_tile.getCenterY()); // Very Important! Reset all precalculated future positions to 0 to prevent update
             }
         }
 
@@ -320,7 +308,22 @@ function update() {
                 this.player.setVelocityY(this.GHOST_VELOCITY);
                 this.player.anims.play('blinky_move_down', true);
             }
+            
         }
+        this.physics.world.postUpdate();
+    }
+
+}
+
+function eatDot(pacman, dot) {
+
+    dot.destroy();
+    Client.removeDot(dot);
+
+    if (this.dots.total === 0) //win
+    {
+        //this.dots.callAll('revive');
+        alert("you won!");
     }
 
 }
@@ -369,6 +372,7 @@ game.setCurrentPacman = function(index) {
     this.scene.scenes[0].player = this.scene.scenes[0].pacmanMap[index];
     this.scene.scenes[0].player.id = index;
     this.scene.scenes[0].player.type = "pacman";
+    this.scene.scenes[0].physics.add.overlap(this.scene.scenes[0].player, this.scene.scenes[0].dots, eatDot, null, this.scene.scenes[0]);
 }
 
 game.setCurrentGhost = function(index) {
@@ -385,6 +389,15 @@ game.removePacman = function(id) {
 game.removeGhost = function(id) {
     this.scene.scenes[0].ghostMap[id].destroy();
     delete this.scene.scenes[0].ghostMap[id];
+}
+
+game.removeDot = function(coordinate) {
+	for(var i=0; i<game.scene.scenes[0].dots.children.entries.length; i++){
+		if(game.scene.scenes[0].dots.children.entries[i].x === coordinate.x && game.scene.scenes[0].dots.children.entries[i].y === coordinate.y){
+			game.scene.scenes[0].dots.children.entries[i].destroy();
+			return;
+		}
+	}
 }
 
 game.updatePacman = function(otherPlayer) {

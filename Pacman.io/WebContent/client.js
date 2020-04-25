@@ -9,6 +9,10 @@ Client.updatePlayer = function(data) {
     Client.socket.emit('playermovemnet', data);
 }
 
+Client.removeDot = function(dot) {
+	Client.socket.emit('removedot', {x: dot.x, y: dot.y});
+}
+
 Client.socket.on('newpacman', function(player) {
     game.addNewPacman(player.x, player.y, player.id);
 })
@@ -44,6 +48,16 @@ Client.socket.on('remove', function(id, type) {
         game.removePacman(id);
     else if (type == "ghost")
         game.removeGhost(id);
+})
+
+Client.socket.on('removealldots', function(coordinates){
+	for(let c in coordinates){
+		game.removeDot(coordinates[c]);
+	}
+})
+
+Client.socket.on('removedot', function(coordinate) {
+	game.removeDot(coordinate);
 })
 
 Client.socket.on('playermovemnet', function(player, type) {
