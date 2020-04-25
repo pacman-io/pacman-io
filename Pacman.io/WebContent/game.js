@@ -22,6 +22,8 @@ var config = {
 var game = new Phaser.Game(config);
 
 
+
+
 function preload() {
     this.load.image('background', 'assets/images/map.png');
     this.load.image('coltiles', 'assets/images/coltiles.png');
@@ -43,7 +45,20 @@ function create() {
 
     this.add.image(14 * 16, 18 * 16, 'background');
     this.map = this.make.tilemap({ key: 'map' });
+    const tileset = this.map.addTilesetImage('coltiles');
+    this.layer = this.map.createStaticLayer('MapLayer', tileset);
+    this.map.setLayer('MapLayer');
+    this.layer.setAlpha(0.5);
+    this.layer.setCollisionByProperty({ collides: true });
     
+    this.pathFinder = new EasyStar.js(); //Initialize EasyStar pathFinder
+    var mapGrid = [];
+    for(var y=0; y < this.map.height; y++){
+    	var col = [];
+    	for(var x=0; x < this.map.width; x++){
+    		
+    	}
+    }
     
 
     var dotSprites = this.map.createFromTiles(2, null, {key: 'sprites', frame: 100}, this, this.cameras.main, layer='DotLayer');
@@ -54,17 +69,9 @@ function create() {
     this.dots = this.physics.add.group(dotSprites);
     this.dots.incXY(8, 8); //Dot offset
     
-
-    
-    const tileset = this.map.addTilesetImage('coltiles');
-    this.layer = this.map.createStaticLayer('MapLayer', tileset);
-    this.map.setLayer('MapLayer');
-
     this.directions = new Array();
 
-    spawnpoint = this.map.tileToWorldXY(13, 26);
-    this.layer.setAlpha(0.5);
-    this.layer.setCollisionByProperty({ collides: true });
+    
 
     this.pacmanMap = {};
     this.ghostMap = {};
