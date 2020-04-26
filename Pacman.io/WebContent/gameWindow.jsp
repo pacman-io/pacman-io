@@ -4,8 +4,9 @@
 <html>
 <head>
 	<meta charset="ISO-8859-1">
-	<title>Pacman.io</title>
+	
 	<% String port = (String)request.getAttribute("portNum"); %>
+	<title><%=port%></title>
  	<script src="//cdn.jsdelivr.net/npm/phaser@3.22.0/dist/phaser.js"></script>
     <script src="js/easystar-0.4.3.js"></script>
     <script src = "https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
