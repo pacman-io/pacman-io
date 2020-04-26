@@ -28,10 +28,7 @@ public class SetMatchmaking extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String hostname = request.getParameter("host");
-//		int port = Integer.parseInt(request.getParameter("port"));
 		@SuppressWarnings("resource")
-//		Socket s = new Socket(hostname, port);
 		Socket s = new Socket("localhost", 9200);
 		oos = new ObjectOutputStream(s.getOutputStream());
 		System.out.println("new connection");
@@ -51,30 +48,6 @@ public class SetMatchmaking extends HttpServlet {
 		request.setAttribute("portNum", p);
 		RequestDispatcher rd = request.getRequestDispatcher("gameWindow.jsp");
 	    rd.forward(request, response);
-		
-		/*while(true) {
-			Message message = new Message("connected");
-			//oos.writeObject(message);
-			//oos.flush();
-			Message update;
-			try {
-				update = (Message)ois.readObject();
-				if(update.text != null) {
-					String p = update.text;
-					request.setAttribute("portNum", p);
-					RequestDispatcher rd = request.getRequestDispatcher("gameWindow.jsp");
-				    rd.forward(request, response);
-				}
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}*/
-		
-		/*request.setAttribute("portNum", "9201");
-		RequestDispatcher rd = request.getRequestDispatcher("gameWindow.jsp");
-	    rd.forward(request, response);*/
 	}
 
 }

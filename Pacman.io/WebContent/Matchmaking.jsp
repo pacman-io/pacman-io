@@ -200,18 +200,6 @@ body {
 		xhttp.open("GET", "SetMatchmaking?host=localhost&port=9200", true);
 
 		xhttp.send();
-		
-		/*$.ajax({
-			  type: "POST",
-			  url: "SetMatchmaking",
-			  data: {
-				  host:"localhost",
-				  port:"9200"
-			  }
-			success: function(result){
-				$("#errorMessages").html(result);
-			}
-		});*/
 	}
 	
 </script>
@@ -223,9 +211,6 @@ body {
   	<form method="GET" action="SetMatchmaking" name="join">
   	<div id="status-text">
   		<input type="submit" name="submit" value="Submit" />
-      <!-- <a href="#" class="myButton" onclick="JoinQueue();">
-       	<p id="st">Join Queue</p>
-   	  </a> -->
     </div>
   	</form>
   </div>
