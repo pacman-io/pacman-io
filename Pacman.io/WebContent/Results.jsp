@@ -1,3 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+
+<%@ page import="main.DatabaseMutator" %>
+<%@ page import="main.StatWrapper" %>
+
 <!DOCTYPE html>
 <html><head><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJl4aa50a2bf503158e7d22a80da45de696"/>
   <meta charset="utf-8">
@@ -152,12 +158,26 @@ body {
 	if (session_username == null) {
 		session_username = "";
 	}
+	
+	String wins = null;
+	String losses = null;
+	String games_played = null;
+	String kills = null;
+	String deaths = null;
+	String kill_death_ratio = null;
+	
+	StatWrapper stats = DatabaseMutator.tryGetStats(session_username);
+	
+	if(stats.response_message.equalsIgnoreCase("SUCCESS")){
+		wins = stats.wins;
+		losses = stats.losses;
+		games_played = stats.games_played;
+		kills = stats.kills;
+		deaths = stats.deaths;
+		kill_death_ratio = stats.kill_death_ratio;
+	}
 %>
 <script>
-	function GetReults() {
-		
-	}
-	
 	function SignOut() {
 		window.location.replace("http://localhost:8080/Pacman.io/SignOut");
 	}

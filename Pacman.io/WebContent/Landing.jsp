@@ -359,13 +359,26 @@ input[type="submit"]:hover {
 
 </head>
 
-<script>
-	var is_login = true;
-	
-	if("<%=type%>".localCompare("sign_up") == 0){
-		var is_login = false;
-		window.SignUp();
-	}
+<script>	
+	<%
+		String login = null;
+		String signup = null;
+		
+		if(type.equals("sign_up")){
+			login = "";
+			signup = "display: none";
+			
+			%>
+				var is_login = false;
+			<%
+		} else{
+			login = "display: none";
+			signup = "";
+			%>
+				var is_login = true;
+			<%
+		}
+	%>
 	
 	function Login() {
 		if (!is_login){
@@ -392,7 +405,7 @@ input[type="submit"]:hover {
   <img src="PacManBackGround.jpg" id="PacManBackGround" class="gwd-img-o354">
   <img class="gwd-img-1qxu">
   <div class="gwd-div-1x0d">
-    <div id="login_form" style="">
+    <div id="login_form" style="<%=login%>">
       <form method="POST" style="height: 100%; width: 80%; object-fit: contain;" id="formstuff" action="TryLoginSignUp">
       	<input type="hidden" id="type" name="type" value="login">
         <label style="color: white;" for="username">Username</label>
@@ -402,7 +415,7 @@ input[type="submit"]:hover {
         <input type="submit" value="Login">
       </form>
     </div>
-    <div id="sign_up_form" style="display: none">
+    <div id="sign_up_form" style="<%=signup%>">
       <form method="POST" style="height: 100%; width: 80%; object-fit: contain;" id="formstuff" action="TryLoginSignUp">
       	<input type="hidden" id="type" name="type" value="sign_up">
         <label style="color: white;" for="username">Username</label>

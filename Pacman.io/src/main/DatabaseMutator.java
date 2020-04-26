@@ -239,7 +239,13 @@ public class DatabaseMutator {
 		return "SUCCESS";
 	}
 	
-	public static StatWrapper tryGetResults(String username) {
+	/*
+	 * Attempts to add user to MySQL Database
+	 * Returns "FAILED:NO_MATCHING_RECORD" if there is no matching account
+	 * Returns "FAILED: SQL_ERROR" if there is an internal sql error
+	 * Returns "SUCCESS" if there is no error
+	 * */
+	public static StatWrapper tryGetStats(String username) {
 		Connection conn = null;
 		Statement st = null;
 		PreparedStatement ps = null;
