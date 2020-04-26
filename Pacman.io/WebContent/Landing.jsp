@@ -64,7 +64,6 @@
 		else{
 			signup_password_error = signup_password_error.replace("%20", " ");
 		}
-		
 	%>
 	
   <style>.myButton {
