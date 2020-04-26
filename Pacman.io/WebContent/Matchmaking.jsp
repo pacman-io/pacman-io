@@ -210,7 +210,7 @@ body {
   <div class="gwd-div-q9se">
   	<form method="GET" action="SetMatchmaking" name="join">
   	<div id="status-text">
-  		<input type="submit" name="submit" value="Submit" />
+  		<input type="submit" class="myButton" name="submit" value="JOIN QUEUE" />
     </div>
   	</form>
   </div>
