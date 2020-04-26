@@ -186,11 +186,11 @@ body {
 
 <script>
 	function Cancel() {
-		window.location.replace("http://localhost:8080/Pacman.io/Landing.jsp");
+		window.location.replace("http://localhost:8080/Pacman.io/User.jsp");
 	}
 	
-	function PlayAgain() {
-		window.location.replace("http://localhost:8080/Pacman.io/Landing.jsp");
+	function PlayAlone() {
+		window.location.replace();
 	}
 	
 </script>

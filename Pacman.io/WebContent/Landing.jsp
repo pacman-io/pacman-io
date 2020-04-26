@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
-<%@ page import="main.DatabaseMutator"%>
 
 <!DOCTYPE html>
 <html><head><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJl9008695b9c227768a714a9027e2b5325"/>
@@ -386,7 +384,7 @@ input[type="submit"]:hover {
 	}
 	
 	function PlayAsGuest() {
-		  
+		window.location.replace("http://localhost:8080/Pacman.io/TryLoginSignUp?type=play_as_guest");
 	}
 </script>
 

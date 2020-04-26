@@ -19,7 +19,7 @@ public class TryLoginSignUp extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String next_page = "/Matchmaking.jsp";
+		String next_page = "/User.jsp";
 		boolean error = false;
 		boolean null_fields = false;
 		
@@ -135,7 +135,7 @@ public class TryLoginSignUp extends HttpServlet {
 			dispatch.forward(request, response);
 		}
 		else {
-			response.sendRedirect("Matchmaking.jsp");
+			response.sendRedirect("User.jsp");
 		}
 
 	}

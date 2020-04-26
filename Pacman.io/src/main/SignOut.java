@@ -20,7 +20,7 @@ public class SignOut extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("session_username", "GUEST");
 		
-		response.sendRedirect("/Landing.jsp");
+		response.sendRedirect("http://localhost:8080/Pacman.io/Landing.jsp");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
