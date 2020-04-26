@@ -176,6 +176,7 @@ body {
 		deaths = stats.deaths;
 		kill_death_ratio = stats.kill_death_ratio;
 	}
+	
 %>
 <script>
 	function SignOut() {
