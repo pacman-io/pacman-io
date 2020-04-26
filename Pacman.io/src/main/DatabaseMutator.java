@@ -271,8 +271,8 @@ public class DatabaseMutator {
 			String kill_death_ratio = null;
 			
 			if(rs.next() != false) {
-				return new StatWrapper(null, losses, games_played, kills, deaths, 
-						kill_death_ratio, "FAILED: NO_MATCHING_RECORD");
+				sw =  new StatWrapper(null, null, null, null, null, 
+						null, "FAILED: NO_MATCHING_RECORD");
 			}
 			else {
 				wins = Float.toString(rs.getInt("wins"));
@@ -289,7 +289,8 @@ public class DatabaseMutator {
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
 			sqle.printStackTrace();
-			return "FAILED: SQL_ERROR";
+			sw = new StatWrapper(null, null, null, null, null, 
+					null, "FAILED: SQL_ERROR");
 		}
 		finally {
 			try {
@@ -310,7 +311,7 @@ public class DatabaseMutator {
 			}
 		}
 		
-		return "SUCCESS";
+		return sw;
 	}
 	
 }
