@@ -248,7 +248,7 @@ function detectKeyboardInput() {
 }
 
 function calculatePath() {
-	var current_tile = this.scene.map.getTileAtWorldXY(this.getCenter().x, this.getCenter().y, true);
+	var current_tile = this.current_tile;
 	var destination_tile;
 	var that = this;
 	
@@ -256,39 +256,51 @@ function calculatePath() {
 	for(let index in this.scene.pacmanMap){
 		destination_tile = this.scene.map.getTileAtWorldXY(this.scene.pacmanMap[index].getCenter().x, this.scene.pacmanMap[index].getCenter().y, true);
 	}
+	if(destination_tile && current_tile){
+		this.scene.pathFinder.findPath(current_tile.x, current_tile.y, destination_tile.x, destination_tile.y, function(path){
+			
+			if(path === null || path.length <= 1){
+				//Failsafe; prevent ghost from stucking
+				that.directions[Phaser.LEFT] = that.scene.map.getTileAt(current_tile.x - 1, current_tile.y, true);
+				that.directions[Phaser.RIGHT] = that.scene.map.getTileAt(current_tile.x + 1, current_tile.y, true);
+				that.directions[Phaser.UP] = that.scene.map.getTileAt(current_tile.x, current_tile.y - 1, true);
+				that.directions[Phaser.DOWN] = that.scene.map.getTileAt(current_tile.x, current_tile.y + 1, true);
+				if(that.directions[that.current_direction].index != -1){
+					for(var i = 5; i < 9; i++){
+						if(that.last_tile && that.directions[i].x == that.last_tile.x && that.directions[i].y == that.last_tile.y)
+							continue;
+						if(that.directions[i].index == -1 && 
+								i + that.current_direction !== 11 &&
+								i + that.current_direction !== 15 && 
+								i != that.current_direction)
+							that.select_direction = i;
+					}
+				}
+			}
+			else{
+				
+				
+				if(path[1].x === current_tile.x){
+					if(path[1].y > current_tile.y)
+						that.select_direction = Phaser.DOWN;
+					else if(path[1].y < current_tile.y)
+						that.select_direction = Phaser.UP;
+				}
+				else if(path[1].y === current_tile.y){
+					if(path[1].x > current_tile.x)
+						that.select_direction = Phaser.RIGHT;
+					else if(path[1].x < current_tile.x)
+						that.select_direction = Phaser.LEFT;
+				}
+			}
+		})
+		if(that.last_tile)
+			this.scene.pathFinder.avoidAdditionalPoint(that.last_tile.x, that.last_tile.y);
+		this.scene.pathFinder.calculate();
+		this.scene.pathFinder.stopAvoidingAllAdditionalPoints();
+	}
 	
-	 
-	this.scene.pathFinder.findPath(current_tile.x, current_tile.y, destination_tile.x, destination_tile.y, function(path){
-		
-		if(path === null || path.length === 1){
-			//Failsafe: pick a random direction for now
-			
-			
-		}
-		else{
-			console.log(that.current_direction);
-			if(path[1].x === current_tile.x){
-				if(path[1].y > current_tile.y)
-					that.select_direction = Phaser.DOWN;
-				else if(path[1].y < current_tile.y)
-					that.select_direction = Phaser.UP;
-			}
-			if(path[1].y === current_tile.y){
-				if(path[1].x > current_tile.x)
-					that.select_direction = Phaser.RIGHT;
-				else if(path[1].x < current_tile.x)
-					that.select_direction = Phaser.LEFT;
-			}
-			if(that.select_direction + that.current_direction == 11 ||
-					that.select_direction + that.current_direction == 15){
-				that.select_direction += 1;
-				if(that.select_direction > 8)
-					that.select_direction = 5;
-			}
-			
-		}
-	})
-	this.scene.pathFinder.calculate();
+	
 }
 
 function entityUpdate() {
@@ -330,7 +342,13 @@ function entityUpdate() {
         this.directions[Phaser.RIGHT] = this.scene.map.getTileAt(this.current_tile.x + 1, this.current_tile.y, true);
         this.directions[Phaser.UP] = this.scene.map.getTileAt(this.current_tile.x, this.current_tile.y - 1, true);
         this.directions[Phaser.DOWN] = this.scene.map.getTileAt(this.current_tile.x, this.current_tile.y + 1, true);
-
+        
+        if(this.tile_last_frame){
+        	if(this.tile_last_frame.x != this.current_tile.x || this.tile_last_frame.y != this.current_tile.y)
+        		this.last_tile = this.tile_last_frame;
+        }
+        
+        this.tile_last_frame = this.current_tile;
         
 
         //Update velocity according to current_direction
@@ -371,11 +389,13 @@ function entityUpdate() {
         } else if (this.type == "ghost") {
         	if ((this.current_tile.index == 5 || this.current_tile.index == 6) &&
                     this.select_direction != this.current_direction &&
-                    this.select_direction + this.current_direction != 11 &&
-                    this.select_direction + this.current_direction != 15 &&
+                    (this.select_direction + this.current_direction) != 11 &&
+                    (this.select_direction + this.current_direction) != 15 &&
                     this.directions[this.select_direction] != null &&
                     this.directions[this.select_direction].index != 1) {
                     if (Phaser.Math.Fuzzy.Equal(this.x, this.current_tile.getCenterX(), 1) && Phaser.Math.Fuzzy.Equal(this.y, this.current_tile.getCenterY(), 1)) {
+                    	//Save the last tile visited
+                    	
                         this.current_direction = this.select_direction;
                         this.setPosition(this.current_tile.getCenterX(), this.current_tile.getCenterY());
                         this.body.reset(this.current_tile.getCenterX(), this.current_tile.getCenterY()); // Very Important! Reset all precalculated future positions to 0 to prevent update
@@ -416,6 +436,10 @@ function eatDot(pacman, dot) {
 
 }
 
+function killPacman(pacman, ghost) {
+	pacman.disableBody();
+}
+
 
 game.addNewPacman = function(x, y, id) {
     console.log(id);
@@ -430,6 +454,7 @@ game.addNewPacman = function(x, y, id) {
     this.scene.scenes[0].pacmanMap[id].processInput = detectKeyboardInput;
     this.scene.scenes[0].pacmanMap[id].detectKeyboardInput = detectKeyboardInput;
     this.scene.scenes[0].pacmanMap[id].directions = {};
+    this.scene.scenes[0].pacmanMap[id].id = id;
 }
 
 game.addNewGhost = function(x, y, id, ghostType) {
@@ -447,17 +472,16 @@ game.addNewGhost = function(x, y, id, ghostType) {
     this.scene.scenes[0].ghostMap[id].calculatePath = calculatePath;
     this.scene.scenes[0].ghostMap[id].detectKeyboardInput = detectKeyboardInput;
     this.scene.scenes[0].ghostMap[id].directions = {};
+    this.scene.scenes[0].ghostMap[id].id = id;
 }
 
 game.setCurrentPacman = function(index) {
     this.scene.scenes[0].player = this.scene.scenes[0].pacmanMap[index];
-    this.scene.scenes[0].player.id = index;
     this.scene.scenes[0].physics.add.overlap(this.scene.scenes[0].player, this.scene.scenes[0].dots, eatDot, null, this.scene.scenes[0]);
 }
 
 game.setCurrentGhost = function(index) {
     this.scene.scenes[0].player = this.scene.scenes[0].ghostMap[index];
-    this.scene.scenes[0].player.id = index;
 }
 
 game.removePacman = function(id) {
