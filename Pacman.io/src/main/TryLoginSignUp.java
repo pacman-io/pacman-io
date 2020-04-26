@@ -109,20 +109,28 @@ public class TryLoginSignUp extends HttpServlet {
 					Util.printMessage("Sign up passwords do not match");
 				}
 				else {
-					dbm_response = DatabaseMutator.tryAddUser(username, password);
-					
-					if(dbm_response.equalsIgnoreCase("FAILED: ACCOUNT_EXISTS")) {
-						request.setAttribute("signup_username_error", "This username is taken".replace(" ", "%20"));
+					if(password.length() < 6) {
+						request.setAttribute("signup_username", username);
+						request.setAttribute("signup_password_error", "Password is too short".replace(" ", "%20"));
 						error = true;
-						Util.printMessage("Signup username is taken");
+						Util.printMessage("Password is too short");
 					}
-					else if(dbm_response.equalsIgnoreCase("FAILED: SQL_ERROR")) {
-						error = true;
-						Util.printMessage("Signup SQL Error");
-					}
-					else if(dbm_response.equalsIgnoreCase("SUCCESS")) {
-						session.setAttribute("session_username", username);
-						Util.printMessage("Signup success");
+					else {
+						dbm_response = DatabaseMutator.tryAddUser(username, password);
+						
+						if(dbm_response.equalsIgnoreCase("FAILED: ACCOUNT_EXISTS")) {
+							request.setAttribute("signup_username_error", "This username is taken".replace(" ", "%20"));
+							error = true;
+							Util.printMessage("Signup username is taken");
+						}
+						else if(dbm_response.equalsIgnoreCase("FAILED: SQL_ERROR")) {
+							error = true;
+							Util.printMessage("Signup SQL Error");
+						}
+						else if(dbm_response.equalsIgnoreCase("SUCCESS")) {
+							session.setAttribute("session_username", username);
+							Util.printMessage("Signup success");
+						}
 					}
 				}
 			}

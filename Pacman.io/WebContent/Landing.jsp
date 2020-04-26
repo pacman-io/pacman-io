@@ -363,15 +363,15 @@
          String signup = null;
          
          if(type.equals("sign_up") || type.equals("GUEST")){
-         	login = "";
-         	signup = "display: none";
+			login = "display: none";
+          	signup = "";
          	
          	%>
       			var is_login = false;
       		<%
          } else{
-         	login = "display: none";
-         	signup = "";
+			login = "";
+          	signup = "display: none";
          	%>
       			var is_login = true;
       		<%
@@ -417,7 +417,7 @@
                <input type="hidden" id="type" name="type" value="sign_up">
                <label style="color: white;" for="username">Username</label>
                <input type="text" id="username" name="username" placeholder="<%=signup_username_error %>" value="<%=signup_username %>" >
-               <label style="color: white;" for="password">Password</label>
+               <label style="color: white;" for="password">Password (At least 6 characters long)</label>
                <input type="password" id="password" name="password" placeholder="<%=signup_password_error %>" >
                <label style="color: white;" for="confirm_password">Confirm Password</label>
                <input type="password" id="confirm_password" name="confirm_password" placeholder="<%=confirm_password_error %>" >
