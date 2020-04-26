@@ -163,13 +163,15 @@ body {
 	}
 	
 	function PlayAgain() {
-		
+		window.location.replace("http://localhost:8080/Pacman.io/Matchmaking.jsp");
 	}
 </script>
 
 <body class="htmlNoPages">
   <img src="PacManBackGround.jpg" id="PacManBackGround" class="gwd-img-a9v2">
-  <div class="gwd-div-hp70"></div>
+  <div class="gwd-div-hp70">
+  	
+  </div>
   <p class="gwd-p-1dfe"></p>
   <div class="gwd-div-1ww4 gwd-div-p99j">
     <div>

@@ -237,7 +237,81 @@ public class DatabaseMutator {
 		}
 		
 		return "SUCCESS";
-	}	
+	}
+	
+	public static StatWrapper tryGetResults(String username) {
+		Connection conn = null;
+		Statement st = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		StatWrapper sw = null;
+		
+		try {
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			conn = DriverManager.getConnection(DB_URL);
+			
+			st = conn.createStatement();
+			rs = st.executeQuery("SELECT * from PlayerStats where userEmail='" + username + "'");
+			
+			String wins = null;
+			String losses = null;
+			String games_played = null;
+			String kills = null;
+			String deaths = null;
+			String kill_death_ratio = null;
+			
+			if(rs.next() != false) {
+				return new StatWrapper(null, losses, games_played, kills, deaths, 
+						kill_death_ratio, "FAILED: NO_MATCHING_RECORD");
+			}
+			else {
+				wins = Float.toString(rs.getInt("wins"));
+				losses = Float.toString(rs.getInt("losses"));
+				games_played = Float.toString(rs.getInt("gamesPlayed"));
+				kills = Float.toString(rs.getInt("kills"));
+				deaths = Float.toString(rs.getInt("deaths"));
+				kill_death_ratio = Float.toString(rs.getFloat("killDeathRatio"));
+				
+				sw = new StatWrapper(wins, losses, games_played, kills, deaths, 
+						kill_death_ratio, "SUCCESS");
+			}
+			
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+			sqle.printStackTrace();
+			return "FAILED: SQL_ERROR";
+		}
+		finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				if (ps != null) {
+					ps.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		
+		return "SUCCESS";
+	}
 	
 }
 
