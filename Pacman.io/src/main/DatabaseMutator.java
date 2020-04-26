@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 public class DatabaseMutator {
 	private static String DB_URL = "jdbc:mysql://pacman-io-v1.ce3zlv348xfo.us-west-2.rds.amazonaws.com"
@@ -39,10 +40,11 @@ public class DatabaseMutator {
 			}
 			else {
 				PreparedStatement insert_statement = conn.prepareStatement("INSERT INTO Users "
-						+ "(userName, hashPass) VALUES (?, ?)");
+						+ "(userName, hashPass, timeOfSignUp) VALUES (?, ?, ?)");
 				
 				insert_statement.setString(1, username);
 				insert_statement.setString(2, password);
+				insert_statement.setTimestamp(3,  new Timestamp(System.currentTimeMillis()));
 				
 				insert_statement.executeUpdate();
 			}
@@ -276,7 +278,7 @@ public class DatabaseMutator {
 			String deaths = null;
 			String kill_death_ratio = null;
 			
-			if(rs.next() != false) {
+			if(rs.next() == false) {
 				sw =  new StatWrapper(null, null, null, null, null, 
 						null, "FAILED: NO_MATCHING_RECORD");
 			}

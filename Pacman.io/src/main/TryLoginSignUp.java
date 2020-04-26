@@ -27,6 +27,11 @@ public class TryLoginSignUp extends HttpServlet {
 		String dbm_response = null;
 		
 		String type = request.getParameter("type");
+		
+		if(type == null || type.equalsIgnoreCase("") || type.equalsIgnoreCase("NO_SESSION")) {
+			type = "play_as_guest";
+		}
+		
 		request.setAttribute("type", type);
 		
 		if(type.equalsIgnoreCase("login")) {
@@ -124,7 +129,15 @@ public class TryLoginSignUp extends HttpServlet {
 			
 		}
 		else if(type.equalsIgnoreCase("play_as_guest")){
-			session.setAttribute("session_username", "GUEST");
+			String guest_name = null;
+			
+			do {
+				guest_name = "guest_" + GuestNameGenerator.getAlphaNumericString();
+			}
+			while(!DatabaseMutator.tryAddUser(guest_name, "**GUEST_PASSWORD**").equalsIgnoreCase("SUCCESS"));
+			
+			
+			session.setAttribute("session_username", guest_name);
 			Util.printMessage("Playing as guest");
 		}
 		

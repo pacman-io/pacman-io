@@ -3,6 +3,7 @@
 
 <%@ page import="main.DatabaseMutator" %>
 <%@ page import="main.StatWrapper" %>
+<%@ page import="main.Util" %>
 
 <!DOCTYPE html>
 <html><head><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJl4aa50a2bf503158e7d22a80da45de696"/>
@@ -60,6 +61,16 @@ body {
     width: 51.77%;
     height: 60.81%;
 }
+
+.gwd-div-hp70 div{
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
 .gwd-p-1dfe {
     position: absolute;
     left: 40.54%;
@@ -159,23 +170,42 @@ body {
 		session_username = "";
 	}
 	
-	String wins = null;
-	String losses = null;
-	String games_played = null;
-	String kills = null;
-	String deaths = null;
-	String kill_death_ratio = null;
+	String wins = "null";
+	String losses = "null";
+	String games_played = "null";
+	String kills = "null";
+	String deaths = "null";
+	String kill_death_ratio = "null";
 	
 	StatWrapper stats = DatabaseMutator.tryGetStats(session_username);
 	
 	if(stats.response_message != null){
 		if(stats.response_message.equalsIgnoreCase("SUCCESS")){
-			wins = stats.wins;
-			losses = stats.losses;
-			games_played = stats.games_played;
-			kills = stats.kills;
-			deaths = stats.deaths;
-			kill_death_ratio = stats.kill_death_ratio;
+			if(stats.wins != null){
+				wins = stats.wins;
+			}
+			if(stats.losses != null){
+				losses = stats.losses;
+			}
+			if(stats.games_played != null){
+				games_played = stats.games_played;
+			}
+			if(stats.kills != null){
+				kills = stats.kills;
+			}
+			if(stats.deaths != null){
+				deaths = stats.deaths;
+			}
+			if(stats.kill_death_ratio != null){
+				kill_death_ratio = stats.kill_death_ratio;
+			}
+			Util.printMessage("Stats fetched for " + session_username);
+		}
+		else if(stats.response_message.equalsIgnoreCase("FAILED:NO_MATCHING_RECORD")){
+			Util.printMessage("No matching record for " + session_username);
+		}
+		else if(stats.response_message.equalsIgnoreCase("FAILED: SQL_ERROR")){
+			Util.printMessage("SQL error in fetching results for " + session_username);
 		}
 	}
 %>
@@ -192,9 +222,74 @@ body {
 <body class="htmlNoPages">
   <img src="PacManBackGround.jpg" id="PacManBackGround" class="gwd-img-a9v2">
   <div class="gwd-div-hp70">
-  	
+  	<div  style="text-align: center;">&nbsp; </div>
+<table style="font-family: Verdana;">
+<tbody>
+<tr style="height: 20px;">
+<td style="width: 513px; height: 20px; text-align: center;" colspan="2">&nbsp;</td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 513px; height: 20px; text-align: center;" colspan="2">&nbsp;</td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 513px; height: 20px; text-align: center;" colspan="2">&nbsp;</td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 513px; height: 20px; text-align: center;" colspan="2"><strong><span style="color: #00ccff;">Here are your game statistics!</span></strong></td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 513px; height: 20px; text-align: center;" colspan="2"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 513px; height: 20px; text-align: center;" colspan="2"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 212.4px; height: 20px; text-align: right;"><strong><span style="color: #00ccff;">GAMES PLAYED</span></strong></td>
+<td style="width: 300.6px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;<%=games_played %></span></strong></td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 212.4px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+<td style="width: 300.6px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+</tr>
+<tr style="height: 20.8px;">
+<td style="width: 212.4px; height: 20.8px; text-align: right;"><strong><span style="color: #00ccff;">WINS</span></strong></td>
+<td style="width: 300.6px; height: 20.8px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;<%=wins %></span></strong></td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 212.4px; height: 20px;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+<td style="width: 300.6px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 212.4px; height: 20px; text-align: right;"><strong><span style="color: #00ccff;">&nbsp;LOSSES&nbsp;</span></strong></td>
+<td style="width: 300.6px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;<%=losses %></span></strong></td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 212.4px; height: 20px;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+<td style="width: 300.6px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 212.4px; height: 20px; text-align: right;"><strong><span style="color: #00ccff;">&nbsp;KILLS</span></strong></td>
+<td style="width: 300.6px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;<%=kills %></span></strong></td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 212.4px; height: 20px;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+<td style="width: 300.6px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 212.4px; height: 20px; text-align: right;"><strong><span style="color: #00ccff;">&nbsp;DEATHS</span></strong></td>
+<td style="width: 300.6px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;<%=deaths %></span></strong></td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 212.4px; height: 20px;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+<td style="width: 300.6px; height: 20px;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+</tr>
+<tr style="height: 20px;">
+<td style="width: 212.4px; height: 20px; text-align: right;"><strong><span style="color: #00ccff;">&nbsp;KILLS/DEATHS RATIO</span></strong></td>
+<td style="width: 300.6px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;<%=kill_death_ratio %></span></strong></td>
+</tr>
+</tbody>
+</table>
   </div>
-  <p class="gwd-p-1dfe"></p>
   <div class="gwd-div-1ww4 gwd-div-p99j">
     <div>
       <a href="#" class="myButton" onclick="PlayAgain();">

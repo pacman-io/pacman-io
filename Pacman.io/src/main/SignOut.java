@@ -18,8 +18,11 @@ public class SignOut extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		session.setAttribute("session_username", "GUEST");
 		
+		Util.printMessage("User " + session.getAttribute("session_username") + " signed out");
+		
+		session.setAttribute("session_username", "NO_SESSION");
+		session.setAttribute("type", "NO_SESSION");
 		response.sendRedirect("http://localhost:8080/Pacman.io/Landing.jsp");
 	}
 

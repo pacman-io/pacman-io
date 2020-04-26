@@ -364,7 +364,7 @@ input[type="submit"]:hover {
 		String login = null;
 		String signup = null;
 		
-		if(type.equals("sign_up")){
+		if(type.equals("sign_up") || type.equals("GUEST")){
 			login = "";
 			signup = "display: none";
 			

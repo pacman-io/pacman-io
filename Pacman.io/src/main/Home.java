@@ -24,7 +24,7 @@ public class Home extends HttpServlet {
 		String session_username = (String)request.getSession().getAttribute("session_username");
 		String next_page = "";
 		
-		if(session_username == null || session_username.equalsIgnoreCase("GUEST") 
+		if(session_username == null || session_username.equalsIgnoreCase("NO_SESSION") 
 				|| session_username.equalsIgnoreCase("")) {
 			next_page = "http://localhost:8080/Pacman.io/Landing.jsp";
 		}
