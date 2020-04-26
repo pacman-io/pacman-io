@@ -100,21 +100,21 @@ function create() {
     })
 
     this.anims.create({
-        key: 'blinky_move_left',
+        key: 'blinky_move_down',
         frames: this.anims.generateFrameNumbers('sprites', { start: 24, end: 25 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
-        key: 'blinky_move_up',
+        key: 'blinky_move_left',
         frames: this.anims.generateFrameNumbers('sprites', { start: 26, end: 27 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
-        key: 'blinky_move_down',
+        key: 'blinky_move_up',
         frames: this.anims.generateFrameNumbers('sprites', { start: 28, end: 29 }),
         frameRate: 15,
         repeat: -1,
@@ -128,21 +128,21 @@ function create() {
     })
 
     this.anims.create({
-        key: 'speedy_move_left',
+        key: 'speedy_move_down',
         frames: this.anims.generateFrameNumbers('sprites', { start: 35, end: 36 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
-        key: 'speedy_move_up',
+        key: 'speedy_move_left',
         frames: this.anims.generateFrameNumbers('sprites', { start: 37, end: 38 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
-        key: 'speedy_move_down',
+        key: 'speedy_move_up',
         frames: this.anims.generateFrameNumbers('sprites', { start: 39, end: 40 }),
         frameRate: 15,
         repeat: -1,
@@ -156,21 +156,21 @@ function create() {
     })
 
     this.anims.create({
-        key: 'inky_move_left',
+        key: 'inky_move_down',
         frames: this.anims.generateFrameNumbers('sprites', { start: 46, end: 47 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
-        key: 'inky_move_up',
+        key: 'inky_move_left',
         frames: this.anims.generateFrameNumbers('sprites', { start: 48, end: 49 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
-        key: 'inky_move_down',
+        key: 'inky_move_up',
         frames: this.anims.generateFrameNumbers('sprites', { start: 50, end: 51 }),
         frameRate: 15,
         repeat: -1,
@@ -184,21 +184,21 @@ function create() {
     })
 
     this.anims.create({
-        key: 'clyde_move_left',
+        key: 'clyde_move_down',
         frames: this.anims.generateFrameNumbers('sprites', { start: 57, end: 58 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
-        key: 'clyde_move_up',
+        key: 'clyde_move_left',
         frames: this.anims.generateFrameNumbers('sprites', { start: 59, end: 60 }),
         frameRate: 15,
         repeat: -1,
     })
 
     this.anims.create({
-        key: 'clyde_move_down',
+        key: 'clyde_move_up',
         frames: this.anims.generateFrameNumbers('sprites', { start: 61, end: 62 }),
         frameRate: 15,
         repeat: -1,
