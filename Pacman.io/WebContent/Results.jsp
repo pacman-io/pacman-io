@@ -168,13 +168,15 @@ body {
 	
 	StatWrapper stats = DatabaseMutator.tryGetStats(session_username);
 	
-	if(stats.response_message.equalsIgnoreCase("SUCCESS")){
-		wins = stats.wins;
-		losses = stats.losses;
-		games_played = stats.games_played;
-		kills = stats.kills;
-		deaths = stats.deaths;
-		kill_death_ratio = stats.kill_death_ratio;
+	if(stats.response_message != null){
+		if(stats.response_message.equalsIgnoreCase("SUCCESS")){
+			wins = stats.wins;
+			losses = stats.losses;
+			games_played = stats.games_played;
+			kills = stats.kills;
+			deaths = stats.deaths;
+			kill_death_ratio = stats.kill_death_ratio;
+		}
 	}
 %>
 <script>
