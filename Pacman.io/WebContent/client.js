@@ -19,26 +19,30 @@ Client.socket.on('newpacman', function(player) {
 
 Client.socket.on('newghost',
     function(player) {
-        game.addNewGhost(player.x, player.y, player.id);
+        game.addNewGhost(player.x, player.y, player.id, player.type);
     })
 
 
 //allpacman or allghost is only called once upon initialization.
-Client.socket.on('allpacmans', function(data) {
+Client.socket.on('allpacmans', function(data, isPacman) {
     for (var i = 0; i < data.length; i++) {
         game.addNewPacman(data[i].x, data[i].y, data[i].id);
     }
     //something
-    if (data.length > 0)
+    if (data.length > 0 && isPacman)
         game.setCurrentPacman(data[data.length - 1].id);
 })
 
-Client.socket.on('allghosts', function(data) {
+Client.socket.on('allghosts', function(data, isGhost) {
     for (var i = 0; i < data.length; i++) {
-        game.addNewGhost(data[i].x, data[i].y, data[i].id);
+        game.addNewGhost(data[i].x, data[i].y, data[i].id, data[i].type);
     }
-    if (data.length > 0)
-        game.setCurrentGhost(data[data.length - 1].id);
+    if (data.length > 0 && isGhost){
+    	game.setCurrentGhost(data[0].id);
+    	
+    }
+    
+    
 
 
 })
