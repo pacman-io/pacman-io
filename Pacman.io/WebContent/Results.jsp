@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html><head><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJl4aa50a2bf503158e7d22a80da45de696"/>
   <meta charset="utf-8">
+  <link rel="shortcut icon" type="image/png" href="pacmanlogo.jpg">
   <title>PacMan.IO | Results</title>
   <meta name="generator" content="Google Web Designer 8.0.1.0401">
   <style type="text/css" id="gwd-text-style">p {
@@ -96,7 +97,29 @@ body {
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
-}</style>
+    }
+    
+    .usernamespace {
+    position: absolute;
+      width: 20.45%;
+      height: 15.3%;
+      left: 70%;
+      top: 83%;
+}
+
+    .welcometext {
+      font-family: "Trebuchet MS";
+      font-size: 25px;
+      color: #50bcd9;
+      align: right;
+    }
+    .usernametext {
+      font-size: 30px;
+      font-family: Verdana;
+      color: #50bcd9;
+      float: right;
+    }
+</style>
   <style>.myButton {
     box-shadow: rgb(21, 100, 173) 3px 4px 0px 0px;
     background: linear-gradient(rgb(121, 187, 255) 5%, rgb(55, 141, 229) 100%) rgb(121, 187, 255);
@@ -124,18 +147,23 @@ body {
     text-align: center;
 }</style>
 </head>
-
+<%
+	String session_username = (String)session.getAttribute("session_username");
+	if (session_username == null) {
+		session_username = "";
+	}
+%>
 <script>
 	function GetReults() {
-		  document.getElementsByName("favourites")[0].submit();
+		
 	}
 	
 	function SignOut() {
-		  document.getElementsByName("favourites")[0].submit();
+		window.location.replace("http://localhost:8080/Pacman.io/SignOut");
 	}
 	
 	function PlayAgain() {
-		  document.getElementsByName("favourites")[0].submit();
+		
 	}
 </script>
 
@@ -145,18 +173,21 @@ body {
   <p class="gwd-p-1dfe"></p>
   <div class="gwd-div-1ww4 gwd-div-p99j">
     <div>
-      <a href="#" class="myButton">
+      <a href="#" class="myButton" onclick="PlayAgain();">
         <p id="st">PLAY AGAIN</p>
       </a>
     </div>
   </div>
   <div class="gwd-div-1ww4 gwd-div-uttu">
     <div>
-      <a href="#" class="myButton">
+      <a href="#" class="myButton" onclick="SignOut();">
         <p id="st">SIGN OUT</p>
       </a>
     </div>
   </div>
-
+<div class="usernamespace">
+	<p class="welcometext">Hello Player</p><br>
+    <p class="usernametext"><%=session_username %></p>
+</div>
 
 </body></html>

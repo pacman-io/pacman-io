@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html><head><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJlacca7bdbb52031b2f472e38f944f43b2"/>
+  <link rel="shortcut icon" type="image/png" href="pacmanlogo.jpg">
   <meta charset="utf-8">
   <title>PacMan.IO | Matchmaking</title>
   <meta name="generator" content="Google Web Designer 8.0.1.0401">
@@ -152,11 +153,36 @@ body {
     width: 22.1%;
     height: 14.56%;
 }
+.usernamespace {
+    position: absolute;
+      width: 20.45%;
+      height: 15.3%;
+      left: 3%;
+      top: 6%;
+}
 .gwd-img-40t8 {
     top: 0%;
-    left: 0%;
-}</style>
+    left: 0%;  
+}
+.welcometext {
+      font-family: "Trebuchet MS";
+      font-size: 25px;
+      color: #50bcd9;
+    }
+    .usernametext {
+      font-size: 30px;
+      font-family: Verdana;
+      color: #50bcd9;
+    }
+</style>
 </head>
+
+<%
+	String session_username = (String)session.getAttribute("session_username");
+	if (session_username == null) {
+		session_username = "";
+	}
+%>
 
 <script>
 	function Cancel() {
@@ -191,6 +217,9 @@ body {
       </a>
     </div>
   </div>
-
+<div class="usernamespace">
+	<p class="welcometext">Welcome</p><br>
+    <p class="usernametext"><%=session_username %></p>
+</div>
 
 </body></html>
