@@ -1,5 +1,72 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    
+<%@ page import="main.DatabaseMutator"%>
+
 <!DOCTYPE html>
 <html><head><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJl9008695b9c227768a714a9027e2b5325"/>
+	<%
+		String type = (String)request.getAttribute("type");
+		if (type == null) {
+			type = "";
+		}
+	
+		String session_username = (String)request.getAttribute("session_username");
+		if (session_username == null) {
+			session_username = "";
+		}
+		
+		String login_username = (String)request.getAttribute("login_username");
+		if (login_username == null) {
+			login_username = "";
+		}	
+		
+		String signup_username = (String)request.getAttribute("signup_username");
+		if (signup_username == null) {
+			signup_username = "";
+		}	
+		
+		String confirm_password_error = (String)request.getAttribute("confirm_password_error");
+		if (confirm_password_error == null) {
+			confirm_password_error = "";
+		}
+		else{
+			confirm_password_error = confirm_password_error.replace("%20", " ");			
+		}
+		
+		String login_username_error = (String)request.getAttribute("login_username_error");
+		if (login_username_error == null) {
+			login_username_error = "";
+		}
+		else{
+			login_username_error = login_username_error.replace("%20", " ");
+		}
+		
+		String login_password_error = (String)request.getAttribute("login_password_error");
+		if (login_password_error == null) {
+			login_password_error = "";
+		}
+		else{
+			login_password_error = login_password_error.replace("%20", " ");
+		}
+		
+		String signup_username_error = (String)request.getAttribute("signup_username_error");
+		if (signup_username_error == null) {
+			signup_username_error = "";
+		}
+		else{
+			signup_username_error = signup_username_error.replace("%20", " ");
+		}
+		
+		String signup_password_error = (String)request.getAttribute("signup_password_error");
+		if (signup_password_error == null) {
+			signup_password_error = "";
+		}
+		else{
+			signup_password_error = signup_password_error.replace("%20", " ");
+		}
+	%>
+	
   <style>.myButton {
     box-shadow: rgb(21, 100, 173) 3px 4px 0px 0px;
     background: linear-gradient(rgb(121, 187, 255) 5%, rgb(55, 141, 229) 100%) rgb(121, 187, 255);
@@ -25,7 +92,8 @@
   <meta charset="utf-8">
   <title>PacMan.IO</title>
   <meta name="generator" content="Google Web Designer 8.0.1.0401">
-  <style type="text/css" id="gwd-text-style">p {
+  <style type="text/css" id="gwd-text-style">
+  p {
     margin: 0px;
 }
 h1 {
@@ -37,8 +105,8 @@ h2 {
 h3 {
     margin: 0px;
 }</style>
-  <style type="text/css">html,
-body {
+  <style type="text/css">
+  html, body {
     width: 100%;
     height: 100%;
     margin: 0px;
@@ -281,20 +349,43 @@ input[type="submit"]:hover {
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
-}</style>
+}
+
+::placeholder {
+  color: red;
+  opacity: 1;
+}
+
+</style>
+
 </head>
 
 <script>
+	var is_login = true;
+	
+	if("<%=type%>".localCompare("sign_up") == 0){
+		var is_login = false;
+		window.SignUp();
+	}
+	
 	function Login() {
-		  document.getElementsByName("favourites")[0].submit();
+		if (!is_login){
+			document.getElementById("login_form").style = "";
+			document.getElementById("sign_up_form").style = "display: none";
+		}
+		is_login = true;
 	}
 	
 	function SignUp() {
-		  document.getElementsByName("favourites")[0].submit();
+		if (is_login){
+			document.getElementById("login_form").style = "display: none";
+			document.getElementById("sign_up_form").style = "";
+		}
+		is_login = false;
 	}
 	
 	function PlayAsGuest() {
-		  document.getElementsByName("favourites")[0].submit();
+		  
 	}
 </script>
 
@@ -302,23 +393,37 @@ input[type="submit"]:hover {
   <img src="PacManBackGround.jpg" id="PacManBackGround" class="gwd-img-o354">
   <img class="gwd-img-1qxu">
   <div class="gwd-div-1x0d">
-    <div>
-      <form style="height: 100%; width: 80%; object-fit: contain;" id="formstuff" action="/action_page.php">
+    <div id="login_form" style="">
+      <form method="POST" style="height: 100%; width: 80%; object-fit: contain;" id="formstuff" action="TryLoginSignUp">
+      	<input type="hidden" id="type" name="type" value="login">
         <label style="color: white;" for="username">Username</label>
-        <input type="text" id="fname" name="firstname">
+        <input type="text" id="fname" name="username" placeholder="<%=login_username_error %>" value="<%=login_username %>">
         <label style="color: white;" for="password">Password</label>
-        <input type="password" id="lname" name="lastname">
-        <label style="color: white;" for="confirm_password">Confirm Password</label>
-        <input type="password" id="lname" name="lastname">
+        <input type="password" id="lname" name="password" placeholder="<%=login_password_error %>" >
         <input type="submit" value="Login">
+      </form>
+    </div>
+    <div id="sign_up_form" style="display: none">
+      <form method="POST" style="height: 100%; width: 80%; object-fit: contain;" id="formstuff" action="TryLoginSignUp">
+      	<input type="hidden" id="type" name="type" value="sign_up">
+        <label style="color: white;" for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="<%=signup_username_error %>" value="<%=signup_username %>" >
+        <label style="color: white;" for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="<%=signup_password_error %>" >
+        <label style="color: white;" for="confirm_password">Confirm Password</label>
+        <input type="password" id="confirm_password" name="confirm_password" placeholder="<%=confirm_password_error %>" >
+        <input type="submit" value="Sign Up">
       </form>
     </div>
   </div>
   <div class="gwd-div-16qu">
     <div>
-      <a href="#" class="myButton">
+      <a href="#" class="myButton" onclick="PlayAsGuest()">
         <p id="st">Play as Guest</p>
       </a>
+      <form id="play_as_guest" action="TryLoginSignUp">
+      	<input type="hidden" id="type" name="type" value="play_as_guest">
+      </form>
     </div>
   </div>
   <span class="gwd-span-v1b1"><span class="gwd-span-27d1">Welcome to </span><br>
@@ -340,14 +445,14 @@ input[type="submit"]:hover {
   </span>
   <div class="gwd-div-1ukw">
     <div>
-      <a id="st" class="btn round" href="#">
+      <a id="st" class="btn round" href="#" onclick="Login();">
         <p id="in">LOGIN</p>
       </a>
     </div>
   </div>
   <div class="gwd-div-50uy">
     <div>
-      <a id="st" class="btn round" href="#">
+      <a id="st" class="btn round" href="#" onclick="SignUp();">
         <p id="in">SIGN UP</p>
       </a>
     </div>

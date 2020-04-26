@@ -159,17 +159,14 @@ body {
 </head>
 
 <script>
-	function Login() {
-		  document.getElementsByName("favourites")[0].submit();
+	function Cancel() {
+		window.location.replace("http://localhost:8080/Pacman.io/Landing.jsp");
 	}
 	
-	function SignUp() {
-		  document.getElementsByName("favourites")[0].submit();
+	function PlayAgain() {
+		window.location.replace("http://localhost:8080/Pacman.io/Landing.jsp");
 	}
 	
-	function PlayAsGuest() {
-		  document.getElementsByName("favourites")[0].submit();
-	}
 </script>
 
 <body class="htmlNoPages">
@@ -182,15 +179,15 @@ body {
   </div>
   <div class="gwd-div-lx9g">
     <div>
-      <a href="#" class="myButton">
-        <p id="st">PLAY AGAIN</p>
+      <a href="#" class="myButton" onclick="PlayAlone();">
+        <p id="st">PLAY ALONE</p>
       </a>
     </div>
   </div>
   <div class="gwd-div-128i">
     <div>
-      <a href="#" class="myButton">
-        <p id="st">CANCEL</p>
+      <a href="#" class="myButton" onclick="Cancel();">
+        <p id="st" >CANCEL</p>
       </a>
     </div>
   </div>
