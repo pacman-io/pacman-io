@@ -193,15 +193,41 @@ body {
 		window.location.replace();
 	}
 	
+	
+	function JoinQueue(){
+		document.getElementById("status-text").innerHTML = "<h3 style=\"color: white;\">Waiting...</h3>";
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("GET", "SetMatchmaking?host=localhost&port=9200", true);
+
+		xhttp.send();
+		
+		/*$.ajax({
+			  type: "POST",
+			  url: "SetMatchmaking",
+			  data: {
+				  host:"localhost",
+				  port:"9200"
+			  }
+			success: function(result){
+				$("#errorMessages").html(result);
+			}
+		});*/
+	}
+	
 </script>
 
 <body class="htmlNoPages">
   <img src="PacManBackGround.jpg" id="PacManBackGround" class="gwd-img-40t8">
   <div class="gwd-div-1t6f"></div>
   <div class="gwd-div-q9se">
-    <div>
-      <h3 style="color: white;">Status</h3>
+  	<form method="GET" action="SetMatchmaking" name="join">
+  	<div id="status-text">
+  		<input type="submit" name="submit" value="Submit" />
+      <!-- <a href="#" class="myButton" onclick="JoinQueue();">
+       	<p id="st">Join Queue</p>
+   	  </a> -->
     </div>
+  	</form>
   </div>
   <div class="gwd-div-lx9g">
     <div>
