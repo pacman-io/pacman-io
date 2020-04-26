@@ -6,7 +6,6 @@
 	<meta charset="ISO-8859-1">
 	<title>Pacman.io</title>
 	<% String port = (String)request.getAttribute("portNum"); %>
-	<% String port1 = "9201"; %>
  	<script src="//cdn.jsdelivr.net/npm/phaser@3.22.0/dist/phaser.js"></script>
     <script src="js/easystar-0.4.3.js"></script>
     <script src = "https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
@@ -16,7 +15,7 @@
 	  <script> //client code
 	  
 		  var Client = {};
-	      Client.socket = io('http://localhost:' + <%=port1%>);
+	      Client.socket = io('http://localhost:' + <%=port%>);
 	
 		  Client.createNewPlayer = function() {
 		      Client.socket.emit('newplayer', { message: 'newplayer' });
