@@ -65,7 +65,9 @@ function create() {
     this.pathFinder.setAcceptableTiles([-1, 2, 3, 4, 5, 6]);
 
     var dotSprites = this.map.createFromTiles(2, null, {key: 'sprites', frame: 100}, this, this.cameras.main, layer='DotLayer');
+    var powerDots = this.map.createFromTiles(3, null, {key: 'sprites', frame: 99}, this, this.cameras.main, layer='DotLayer');
     this.physics.world.enable(dotSprites);
+    this.physics.world.enable(powerDots);
     for(var i=0; i<dotSprites.length; i++){
     	dotSprites[i].body.setSize(1, 1, true);
     }
@@ -217,6 +219,13 @@ function create() {
         frameRate: 15,
         repeat: -1,
     })
+    
+    this.anims.create({
+        key: 'pacman_dead',
+        frames: this.anims.generateFrameNumbers('sprites', { start: 11, end: 21 }),
+        frameRate: 11,
+        repeat: 0,
+    })
 }
 
 function update() {
@@ -252,10 +261,16 @@ function calculatePath() {
 	var destination_tile;
 	var that = this;
 	
-	//Gonna change if multiple pacmans are there
-	for(let index in this.scene.pacmanMap){
-		destination_tile = this.scene.map.getTileAtWorldXY(this.scene.pacmanMap[index].getCenter().x, this.scene.pacmanMap[index].getCenter().y, true);
+	if(this.ghostState == "chase"){
+		//Gonna change if multiple pacmans are there
+		for(let index in this.scene.pacmanMap){
+			destination_tile = this.scene.map.getTileAtWorldXY(this.scene.pacmanMap[index].getCenter().x, this.scene.pacmanMap[index].getCenter().y, true);
+		}
 	}
+	else if(this.ghostState == "scatter"){
+		destination_tile = this.scatterpoint;
+	}
+	
 	if(destination_tile && current_tile){
 		this.scene.pathFinder.findPath(current_tile.x, current_tile.y, destination_tile.x, destination_tile.y, function(path){
 			
@@ -353,6 +368,17 @@ function entityUpdate() {
 
         //Update velocity according to current_direction
         if (this.type == "pacman") {
+        	if(this.isDead){
+        		if(this.anims.getProgress() == 1){
+        			this.setPosition(this.spawnpoint.x, this.spawnpoint.y);
+        			this.current_direction = Phaser.RIGHT;
+        			this.select_direction = Phaser.RIGHT;
+        			this.anims.play("pacman_move", true);
+        			this.setAngle(0);
+        			this.isDead = false;
+        		}
+        		return;
+        	}
         	if (this.current_tile.index == 5 &&
                     this.select_direction != this.current_direction &&
                     this.select_direction + this.current_direction != 11 &&
@@ -436,15 +462,28 @@ function eatDot(pacman, dot) {
 
 }
 
-function killPacman(pacman, ghost) {
-	pacman.destroy();
-	window.location.replace('http://localhost:8080/Pacman.io/GameEnd?username=asdasdfasdf&result=loss&kills=0&deaths=1');
+function killPacman(ghost, pacman) {
+	if(!pacman.isDead){
+		pacman.isDead = true;
+		pacman.setVelocity(0);
+		pacman.setAngle(0);
+		Client.killPacman(pacman.id);
+		pacman.anims.play('pacman_dead', true);
+	}
+}
+
+game.updateKillPacman = function(id){
+	this.scene.scenes[0].pacmanMap[id].isDead = true;
+	this.scene.scenes[0].pacmanMap[id].setVelocity(0);
+	pacman.setAngle(0);
+	this.scene.scenes[0].pacmanMap[id].anims.play('pacman_dead', true);
 }
 
 
 game.addNewPacman = function(x, y, id) {
     console.log(id);
     this.scene.scenes[0].pacmanMap[id] = this.scene.scenes[0].physics.add.sprite(x, y, 'sprites');
+    this.scene.scenes[0].pacmanMap[id].spawnpoint = {x: x, y: y};
     this.scene.scenes[0].pacmanMap[id].type = 'pacman';
     this.scene.scenes[0].pacmanMap[id].body.setSize(16, 16, true);
     this.scene.scenes[0].pacmanMap[id].anims.play('pacman_move', true);
@@ -456,13 +495,24 @@ game.addNewPacman = function(x, y, id) {
     this.scene.scenes[0].pacmanMap[id].detectKeyboardInput = detectKeyboardInput;
     this.scene.scenes[0].pacmanMap[id].directions = {};
     this.scene.scenes[0].pacmanMap[id].id = id;
+    this.scene.scenes[0].pacmanMap[id].isDead = false;
 }
 
-game.addNewGhost = function(x, y, id, ghostType) {
+game.addNewGhost = function(x, y, id, ghostType, ghostState) {
     console.log(id);
     this.scene.scenes[0].ghostMap[id] = this.scene.scenes[0].physics.add.sprite(x, y, 'sprites');
     this.scene.scenes[0].ghostMap[id].type = 'ghost';
     this.scene.scenes[0].ghostMap[id].ghostType = ghostType;
+    this.scene.scenes[0].ghostMap[id].ghostState = ghostState;
+    this.scene.scenes[0].ghostMap[id].spawnpoint = this.scene.scenes[0].map.getTileAtWorldXY(x, y, true);
+    if(ghostType == "blinky")
+    	this.scene.scenes[0].ghostMap[id].scatterpoint = this.scene.scenes[0].map.getTileAt(1, 32);
+    else if(ghostType == "speedy")
+    	this.scene.scenes[0].ghostMap[id].scatterpoint = this.scene.scenes[0].map.getTileAt(1, 4);
+    else if(ghostType == "inky")
+    	this.scene.scenes[0].ghostMap[id].scatterpoint = this.scene.scenes[0].map.getTileAt(26, 4);
+    else if(ghostType == "clyde")
+    	this.scene.scenes[0].ghostMap[id].scatterpoint = this.scene.scenes[0].map.getTileAt(26, 32);
     this.scene.scenes[0].ghostMap[id].body.setSize(16, 16, true);
     this.scene.scenes[0].ghostMap[id].anims.play(ghostType+'_move_right', true);
     this.scene.scenes[0].physics.add.collider(this.scene.scenes[0].ghostMap[id], this.scene.scenes[0].layer);
@@ -511,10 +561,16 @@ game.updatePacman = function(otherPlayer) {
     this.scene.scenes[0].pacmanMap[otherPlayer.id].x = otherPlayer.x;
     this.scene.scenes[0].pacmanMap[otherPlayer.id].y = otherPlayer.y;
     this.scene.scenes[0].pacmanMap[otherPlayer.id].angle = otherPlayer.angle;
+    this.scene.scenes[0].pacmanMap[otherPlayer.id].anims.play(otherPlayer.animation, true);
 }
 
 game.updateGhost = function(otherPlayer) {
     this.scene.scenes[0].ghostMap[otherPlayer.id].x = otherPlayer.x;
     this.scene.scenes[0].ghostMap[otherPlayer.id].y = otherPlayer.y;
     this.scene.scenes[0].ghostMap[otherPlayer.id].anims.play(otherPlayer.animation, true);
+    this.scene.scenes[0].ghostMap[otherPlayer.id].anims.play(otherPlayer.animation, true);
+}
+
+game.setGhostState = function(id, state) {
+	this.scene.scenes[0].ghostMap[id].ghostState = state;
 }
