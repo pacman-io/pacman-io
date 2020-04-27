@@ -174,6 +174,8 @@
       String kills = "null";
       String deaths = "null";
       String kill_death_ratio = "null";
+      String score = "null";
+      String high_score = "null";
       
       StatWrapper stats = DatabaseMutator.tryGetStats(session_username);
       
@@ -196,6 +198,12 @@
       		}
       		if(stats.kill_death_ratio != null){
       			kill_death_ratio = stats.kill_death_ratio;
+      		}
+      		if(stats.score != null){
+      			score = stats.score;
+      		}
+      		if(stats.high_score != null){
+      			high_score = stats.high_score;
       		}
       		Util.printMessage("Stats fetched for " + session_username);
       	}
@@ -283,6 +291,22 @@
                <tr style="height: 20px;">
                   <td style="width: 212.4px; height: 20px; text-align: right;"><strong><span style="color: #00ccff;">&nbsp;KILLS/DEATHS RATIO</span></strong></td>
                   <td style="width: 300.6px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;<%=kill_death_ratio %></span></strong></td>
+               </tr>
+               <tr style="height: 20px;">
+                  <td style="width: 212.4px; height: 20px;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+                  <td style="width: 300.6px; height: 20px;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+               </tr>
+               <tr style="height: 20px;">
+                  <td style="width: 212.4px; height: 20px; text-align: right;"><strong><span style="color: #00ccff;">&nbsp;SCORE</span></strong></td>
+                  <td style="width: 300.6px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;<%=score %></span></strong></td>
+               </tr>
+               <tr style="height: 20px;">
+                  <td style="width: 212.4px; height: 20px;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+                  <td style="width: 300.6px; height: 20px;"><strong><span style="color: #00ccff;">&nbsp;</span></strong></td>
+               </tr>
+               <tr style="height: 20px;">
+                  <td style="width: 212.4px; height: 20px; text-align: right;"><strong><span style="color: #00ccff;">&nbsp;HIGH SCORE</span></strong></td>
+                  <td style="width: 300.6px; height: 20px; text-align: center;"><strong><span style="color: #00ccff;">&nbsp;<%=high_score %></span></strong></td>
                </tr>
             </tbody>
          </table>

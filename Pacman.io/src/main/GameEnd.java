@@ -29,8 +29,9 @@ public class GameEnd extends HttpServlet {
 		String win_or_loss = request.getParameter("result");
 		Integer kills = Integer.parseInt(request.getParameter("kills"));
 		Integer deaths = Integer.parseInt(request.getParameter("deaths"));
+		Integer score = Integer.parseInt(request.getParameter("score"));
 		
-		String result_response = DatabaseMutator.tryAddResults(username, win_or_loss, kills, deaths);
+		String result_response = DatabaseMutator.tryAddResults(username, win_or_loss, kills, deaths, score);
 		
 		if (result_response.equalsIgnoreCase("FAILED: NO_MATCHING_ACCOUNT")) {
 			Util.printMessage("Result Update failed for " + username);

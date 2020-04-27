@@ -154,7 +154,7 @@ public class DatabaseMutator {
 	 * Returns "FAILED: SQL_ERROR" if there is an internal sql error
 	 * Returns "SUCCESS" if there is no error
 	 * */
-	public static String tryAddResults(String username, String win_or_loss, Integer kills, Integer deaths) {
+	public static String tryAddResults(String username, String win_or_loss, Integer kills, Integer deaths, Integer score) {
 		Connection conn = null;
 		
 		Statement st = null;
@@ -193,6 +193,7 @@ public class DatabaseMutator {
 			Integer current_losses = null;
 			Integer current_kills = null;
 			Integer current_deaths = null;
+			Integer high_score = null;
 			
 			if(rs.next() != false) {
 				return "FAILED: NO_MATCHING_ACCOUNT";
@@ -202,15 +203,24 @@ public class DatabaseMutator {
 				current_losses = rs.getInt("losses");
 				current_kills = rs.getInt("kills");
 				current_deaths = rs.getInt("deaths");
+				high_score = rs.getInt("highScore");
 				
 				PreparedStatement insert_statement = conn.prepareStatement("INSERT INTO PlayerStats "
-						+ "(userName, wins, losses, kills, deaths) VALUES (?, ?, ?, ?, ?)");
+						+ "(userName, wins, losses, kills, deaths, score, highScore) VALUES (?, ?, ?, ?, ?, ?, ?)");
 				
 				insert_statement.setString(1, username);
 				insert_statement.setInt(2, current_wins + win);
 				insert_statement.setInt(3, current_losses + loss);
 				insert_statement.setInt(4, current_kills + kills);
 				insert_statement.setInt(5, current_deaths + deaths);
+				insert_statement.setInt(6, score);
+				
+				if(high_score == null) {
+					insert_statement.setInt(7, 0);
+				}
+				else if(high_score < score) {
+					insert_statement.setInt(7, score);
+				}
 				
 				insert_statement.executeUpdate();
 			}
@@ -278,21 +288,25 @@ public class DatabaseMutator {
 			String kills = null;
 			String deaths = null;
 			String kill_death_ratio = null;
+			String score = null;
+			String high_score = null;
 			
 			if(rs.next() == false) {
 				sw =  new StatWrapper(null, null, null, null, null, 
 						null, "FAILED: NO_MATCHING_RECORD");
 			}
 			else {
-				wins = Float.toString(rs.getInt("wins"));
-				losses = Float.toString(rs.getInt("losses"));
-				games_played = Float.toString(rs.getInt("gamesPlayed"));
-				kills = Float.toString(rs.getInt("kills"));
-				deaths = Float.toString(rs.getInt("deaths"));
+				wins = Integer.toString(rs.getInt("wins"));
+				losses = Integer.toString(rs.getInt("losses"));
+				games_played = Integer.toString(rs.getInt("gamesPlayed"));
+				kills = Integer.toString(rs.getInt("kills"));
+				deaths = Integer.toString(rs.getInt("deaths"));
 				kill_death_ratio = Float.toString(rs.getFloat("killDeathRatio"));
+				score = Integer.toString(rs.getInt("score"));
+				high_score = Integer.toString(rs.getInt("highScore"));
 				
 				sw = new StatWrapper(wins, losses, games_played, kills, deaths, 
-						kill_death_ratio, "SUCCESS");
+						kill_death_ratio, score, high_score, "SUCCESS");
 			}
 			
 		} catch (SQLException sqle) {
