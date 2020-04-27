@@ -16,7 +16,7 @@
 	  <script> //client code
 	  
 		  var Client = {};
-	      Client.socket = io('http://localhost:' + <%=port%>);
+	      Client.socket = io('http://localhost:9201');
 	
 		  Client.createNewPlayer = function() {
 		      Client.socket.emit('newplayer', { message: 'newplayer' });
