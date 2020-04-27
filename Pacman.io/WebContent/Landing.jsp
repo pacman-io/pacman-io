@@ -6,6 +6,9 @@
       <meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJl9008695b9c227768a714a9027e2b5325"/>
       <link rel="shortcut icon" type="image/png" href="pacmanlogo.jpg">
       <%
+      /*
+  	 * Sets all the variables to be used later
+  	 * */
          String type = (String)request.getAttribute("type");
          if (type == null) {
          	type = "";

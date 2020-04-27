@@ -2,7 +2,10 @@ package main;
 
 //code adapted from https://www.geeksforgeeks.org/generate-random-string-of-given-size-in-java/
 public class GuestNameGenerator {
-
+	
+	/*
+	 * Generates and returms a random 6 character string for guest users
+	 * */
 	public static String getAlphaNumericString() 
 	{ 
 

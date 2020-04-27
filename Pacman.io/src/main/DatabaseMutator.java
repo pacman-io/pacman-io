@@ -242,7 +242,7 @@ public class DatabaseMutator {
 	}
 	
 	/*
-	 * Attempts to add user to MySQL Database
+	 * Attempts to get statistics from MySQL Database
 	 * Returns "FAILED:NO_MATCHING_RECORD" if there is no matching account
 	 * Returns "FAILED: SQL_ERROR" if there is an internal SQL error
 	 * Returns "SUCCESS" if there are no errors

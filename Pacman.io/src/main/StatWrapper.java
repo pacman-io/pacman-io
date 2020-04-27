@@ -1,5 +1,9 @@
 package main;
 
+/*
+ * Class to contain the data for statistics, to be returned by 
+ * DatabaseMutator.tryGetStats()
+ * */
 public class StatWrapper {
 	public String wins;
 	public String losses;

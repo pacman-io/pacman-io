@@ -15,7 +15,11 @@ public class SignOut extends HttpServlet {
     public SignOut() {
         super();
     }
-
+    
+    /*
+	 * Signs User out of  the website
+	 * Redirects to Landing/Login page
+	 * */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		

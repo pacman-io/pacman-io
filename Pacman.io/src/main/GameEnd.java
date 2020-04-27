@@ -16,6 +16,12 @@ public class GameEnd extends HttpServlet {
         super();
     }
 
+    /*
+	 * This is the end of the game
+	 * It calls the function to add records to the stats database page
+	 * It also redirects to the Results page after this
+	 * It prints error messages to the console should errors occur
+	 * */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String username = (String)session.getAttribute("session_username");

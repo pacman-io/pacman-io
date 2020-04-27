@@ -17,7 +17,12 @@ public class TryLoginSignUp extends HttpServlet {
     public TryLoginSignUp() {
         super();
     }
-
+    
+    /*
+	 * Facilitates login and signup for the website
+	 * Receives forms as POST requests from the Landing page
+	 * Handles three types of form submissions: login, sign_up, play_as_guest
+	 * */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String next_page = "/User.jsp";
 		boolean error = false;
@@ -34,6 +39,15 @@ public class TryLoginSignUp extends HttpServlet {
 		
 		request.setAttribute("type", type);
 		
+		/*
+		 * type == login
+		 * Checks for empty fields
+		 * Checks if login username exists
+		 * 
+		 * Handles errors and prints to console
+		 * Uses DatabaseMutator class to send request to database and validate login
+		 * Sets session username to logged in username
+		 * */
 		if(type.equalsIgnoreCase("login")) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
@@ -76,6 +90,16 @@ public class TryLoginSignUp extends HttpServlet {
 			}
 			
 		}
+		
+		/*
+		 * type == sign_up
+		 * Checks for empty fields
+		 * Checks for matching password and confirm password fields
+		 * Checks if password is too short (less than 5 characters)
+		 * 
+		 * Checks via DatabaseMutator if username is taken
+		 * Sets session username to signed up username
+		 * */
 		else if(type.equalsIgnoreCase("sign_up")) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
@@ -136,6 +160,12 @@ public class TryLoginSignUp extends HttpServlet {
 			}
 			
 		}
+		
+		/*
+		 * Generates a random username for the guest
+		 * Sets the guest password as a fixed string "**GUEST_PASSWORD**"
+		 * Sets session username to random guest username
+		 * */
 		else if(type.equalsIgnoreCase("play_as_guest")){
 			String guest_name = null;
 			
@@ -149,6 +179,12 @@ public class TryLoginSignUp extends HttpServlet {
 			Util.printMessage("Playing as guest");
 		}
 		
+		/*
+		 * Redirects user to Login/Landing page if there are errors in either form
+		 * Error based redirects are sent on the same entry form
+		 * 
+		 * Successful attempts are redirected to the User page
+		 * */
 		if(error || null_fields) {
 			next_page = "/Landing.jsp";
 			
