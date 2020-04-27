@@ -17,6 +17,18 @@ Client.killPacman = function(id) {
 	Client.socket.emit("killpacman", {id: id});
 }
 
+Client.killGhost = function(id) {
+	Client.socket.emit("killghost", {id: id});
+}
+
+Client.setPacmanInvincible = function(id, isInvincible) {
+	Client.socket.emit("setpacmaninvincible", {id: id, isInvincible: true});
+}
+
+Client.socket.on('setpacmaninvincible', function(id, isInvincible) {
+    game.updatePacmanInvincible(id, isInvincible);
+})
+
 Client.socket.on('newpacman', function(player) {
     game.addNewPacman(player.x, player.y, player.id);
 })
@@ -79,4 +91,12 @@ Client.socket.on('playermovemnet', function(player, type) {
 
 Client.socket.on('killpacman', function(id) {
 	game.updateKillPacman(id);
+})
+
+Client.socket.on('killghost', function(id) {
+	game.updateKillGhost(id);
+})
+
+Client.socket.on('endgame', function() {
+	endgame();
 })
