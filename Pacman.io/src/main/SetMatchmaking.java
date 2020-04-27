@@ -3,6 +3,7 @@ package main;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 import javax.servlet.RequestDispatcher;
@@ -28,13 +29,13 @@ public class SetMatchmaking extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		@SuppressWarnings("resource")
+	
 		Socket s = new Socket("localhost", 9200);
 		oos = new ObjectOutputStream(s.getOutputStream());
 		System.out.println("new connection");
 		ois = new ObjectInputStream(s.getInputStream());
 		Message update = null;
-		try {
+			try {
 			while(update == null) {
 				update = (Message)ois.readObject();
 			}
@@ -44,10 +45,11 @@ public class SetMatchmaking extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		PrintWriter out = response.getWriter();
 		String p = update.text;
-		request.setAttribute("portNum", p);
-		RequestDispatcher rd = request.getRequestDispatcher("gameWindow.jsp");
-	    rd.forward(request, response);
+		out.println(p);
+		out.flush();
+		out.close();
 	}
 
 }

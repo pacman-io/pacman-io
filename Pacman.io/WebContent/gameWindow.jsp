@@ -5,7 +5,7 @@
 <head>
 	<meta charset="ISO-8859-1">
 	
-	<% String port = (String)request.getAttribute("portNum"); %>
+	<% String port = (String)request.getParameter("portNum"); %>
 	<title><%=port%></title>
  	<script src="//cdn.jsdelivr.net/npm/phaser@3.22.0/dist/phaser.js"></script>
     <script src="js/easystar-0.4.3.js"></script>

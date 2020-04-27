@@ -13,6 +13,10 @@ Client.removeDot = function(dot) {
 	Client.socket.emit('removedot', {x: dot.x, y: dot.y});
 }
 
+Client.killPacman = function(id) {
+	Client.socket.emit("killpacman", {id: id});
+}
+
 Client.socket.on('newpacman', function(player) {
     game.addNewPacman(player.x, player.y, player.id);
 })
@@ -35,16 +39,18 @@ Client.socket.on('allpacmans', function(data, isPacman) {
 
 Client.socket.on('allghosts', function(data, isGhost) {
     for (var i = 0; i < data.length; i++) {
-        game.addNewGhost(data[i].x, data[i].y, data[i].id, data[i].type);
+        game.addNewGhost(data[i].x, data[i].y, data[i].id, data[i].type, data[i].state);
     }
     if (data.length > 0 && isGhost){
     	game.setCurrentGhost(data[0].id);
     	
     }
-    
-    
+})
 
-
+Client.socket.on('updateghoststate', function(ghosts) {
+	for(var i = 0; i < ghosts.length; i++){
+		game.setGhostState(ghosts[i].id, ghosts[i].state);
+	}
 })
 
 Client.socket.on('remove', function(id, type) {
@@ -69,4 +75,8 @@ Client.socket.on('playermovemnet', function(player, type) {
         game.updatePacman(player);
     else if (type == "ghost")
         game.updateGhost(player);
+})
+
+Client.socket.on('killpacman', function(id) {
+	game.updateKillPacman(id);
 })
