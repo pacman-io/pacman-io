@@ -66,7 +66,7 @@
          border-image-repeat: stretch;
          border-color: rgb(227, 230, 234);
          border-style: solid;
-         border-width: 1px;
+         border-width: 0px;
          left: 33.21%;
          top: 21.41%;
          width: 33.7%;
@@ -195,12 +195,21 @@
       	window.location.replace();
       }
       
+      function StartGame(port){
+    	  window.location.replace("http://localhost:8080/Pacman.io/gameWindow.jsp?portNum=" + port);
+      }
       
       function JoinQueue(){
       	document.getElementById("status-text").innerHTML = "<h3 style=\"color: white;\">Waiting...</h3>";
+      	document.getElementById("solo-button").innerHTML = "";
       	var xhttp = new XMLHttpRequest();
-      	xhttp.open("GET", "SetMatchmaking?host=localhost&port=9200", true);
-      
+      	xhttp.open("POST", "SetMatchmaking", true);
+      	xhttp.onreadystatechange = function(){
+			if(this.readyState == XMLHttpRequest.DONE){
+				console.log(xhttp.responseText);
+				StartGame(xhttp.responseText);
+			}
+		}
       	xhttp.send();
       }
       
@@ -208,15 +217,15 @@
    <body class="htmlNoPages">
       <img src="PacManBackGround.jpg" id="PacManBackGround" class="gwd-img-40t8">
       <div class="gwd-div-1t6f"></div>
-      <div class="gwd-div-q9se">
-         <form method="GET" action="SetMatchmaking" name="join">
-            <div id="status-text">
-               <input type="submit" class="myButton" name="submit" value="JOIN QUEUE" />
-            </div>
-         </form>
+      <div id="join-queue" class="gwd-div-q9se">
+     	 <div id="status-text">
+            <a href="#" class="myButton" onclick="JoinQueue();">
+               <p id="st">JOIN QUEUE</p>
+            </a>
+         </div>
       </div>
       <div class="gwd-div-lx9g">
-         <div>
+         <div id="solo-button">
             <a href="#" class="myButton" onclick="PlayAlone();">
                <p id="st">PLAY ALONE</p>
             </a>
