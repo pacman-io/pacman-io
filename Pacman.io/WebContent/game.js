@@ -437,7 +437,8 @@ function eatDot(pacman, dot) {
 }
 
 function killPacman(pacman, ghost) {
-	pacman.disableBody();
+	pacman.destroy();
+	window.location.replace('http://localhost:8080/Pacman.io/GameEnd?username=asdasdfasdf&result=loss&kills=0&deaths=1');
 }
 
 
@@ -465,6 +466,9 @@ game.addNewGhost = function(x, y, id, ghostType) {
     this.scene.scenes[0].ghostMap[id].body.setSize(16, 16, true);
     this.scene.scenes[0].ghostMap[id].anims.play(ghostType+'_move_right', true);
     this.scene.scenes[0].physics.add.collider(this.scene.scenes[0].ghostMap[id], this.scene.scenes[0].layer);
+    for(let index in this.scene.scenes[0].pacmanMap){
+    	this.scene.scenes[0].physics.add.overlap(this.scene.scenes[0].ghostMap[id], this.scene.scenes[0].pacmanMap[index], killPacman, null, this.scene.scenes[0]);
+	}
     this.scene.scenes[0].ghostMap[id].current_direction = Phaser.UP;
     this.scene.scenes[0].ghostMap[id].select_direction = Phaser.UP;
     this.scene.scenes[0].ghostMap[id].update = entityUpdate;
