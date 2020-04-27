@@ -186,7 +186,7 @@ public class DatabaseMutator {
 			conn = DriverManager.getConnection(DB_URL);
 			
 			st = conn.createStatement();
-			rs = st.executeQuery("SELECT * from PlayerStats where userEmail='" + username + "'");
+			rs = st.executeQuery("SELECT * from PlayerStats where userName='" + username + "'");
 			
 			Integer current_wins = null;
 			Integer current_losses = null;
