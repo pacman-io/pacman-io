@@ -156,6 +156,7 @@ public class DatabaseMutator {
 	 * */
 	public static String tryAddResults(String username, String win_or_loss, Integer kills, Integer deaths) {
 		Connection conn = null;
+		
 		Statement st = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
