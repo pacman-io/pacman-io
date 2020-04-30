@@ -497,7 +497,7 @@ function setInvincible(isInvincible) {
 function eatDot(pacman, dot) {
 
     dot.destroy();
-    Client.removeDot(dot);
+    Client.removeDot(dot, pacman.id);
 
     if (this.dots.total === 0) //win
     {
@@ -535,8 +535,15 @@ function ghostPacmanCollide(ghost, pacman) {
 	
 }
 
-function endgame(kills, score) {
+function endgame(winner, score) {
 	//Sum up the stats and redirect to the page
+	var winresult;
+	if(winner == game.scene.scenes[0].player.type){
+		winresult = 'win';
+	}
+	else
+		winresult = 'loss';
+	window.location.replace('http://localhost:8080/Pacman.io/GameEnd?username=<username>&result='+winresult+'&kills='+score+'&deaths=3'+'&score='+score);
 }
 
 game.updateKillPacman = function(id){

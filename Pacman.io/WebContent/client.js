@@ -9,8 +9,8 @@ Client.updatePlayer = function(data) {
     Client.socket.emit('playermovemnet', data);
 }
 
-Client.removeDot = function(dot) {
-	Client.socket.emit('removedot', {x: dot.x, y: dot.y});
+Client.removeDot = function(dot, id) {
+	Client.socket.emit('removedot', {x: dot.x, y: dot.y, id: id});
 }
 
 Client.killPacman = function(id) {
@@ -97,6 +97,6 @@ Client.socket.on('killghost', function(id) {
 	game.updateKillGhost(id);
 })
 
-Client.socket.on('endgame', function() {
-	endgame();
+Client.socket.on('endgame', function(winner, score) {
+	endgame(winner, score);
 })

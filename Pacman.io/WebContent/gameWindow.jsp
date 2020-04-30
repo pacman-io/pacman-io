@@ -114,8 +114,8 @@
 	    		game.updateKillGhost(id);
 	    	})
 
-	    	Client.socket.on('endgame', function() {
-	    		endgame();
+	    	Client.socket.on('endgame', function(winner, score) {
+	    		endgame(winner, score);
 	    	})
 	  
 	  
