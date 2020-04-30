@@ -217,11 +217,11 @@
       %>
    <script>
       function SignOut() {
-      	window.location.replace("http://localhost:8080/Pacman.io/SignOut");
+      	window.location.replace("https://cs201-pacman-io.herokuapp.com/SignOut");
       }
       
       function PlayAgain() {
-      	window.location.replace("http://localhost:8080/Pacman.io/Matchmaking.jsp");
+      	window.location.replace("https://cs201-pacman-io.herokuapp.com/Matchmaking.jsp");
       }
    </script>
    <body class="htmlNoPages">
