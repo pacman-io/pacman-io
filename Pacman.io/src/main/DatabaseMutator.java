@@ -160,6 +160,7 @@ public class DatabaseMutator {
 		Statement st = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		ResultSet rs2 = null;
 		
 		Integer win = null;
 		Integer loss = null;
@@ -195,15 +196,13 @@ public class DatabaseMutator {
 			Integer current_deaths = null;
 			Integer high_score = null;
 			
-			if(rs.next() != false) {
-				return "FAILED: NO_MATCHING_ACCOUNT";
-			}
-			else {
+			if(rs.next()) {
 				current_wins = rs.getInt("wins");
 				current_losses = rs.getInt("losses");
 				current_kills = rs.getInt("kills");
 				current_deaths = rs.getInt("deaths");
 				high_score = rs.getInt("highScore");
+				rs.close();
 				
 				PreparedStatement insert_statement = conn.prepareStatement("INSERT INTO PlayerStats "
 						+ "(userName, wins, losses, kills, deaths, score, highScore) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -223,6 +222,9 @@ public class DatabaseMutator {
 				}
 				
 				insert_statement.executeUpdate();
+			}
+			else {
+				
 			}
 			
 		} catch (SQLException sqle) {
@@ -293,7 +295,7 @@ public class DatabaseMutator {
 			
 			if(rs.next() == false) {
 				sw =  new StatWrapper(null, null, null, null, null, 
-						null, "FAILED: NO_MATCHING_RECORD");
+						null, null, null, "FAILED: NO_MATCHING_RECORD");
 			}
 			else {
 				wins = Integer.toString(rs.getInt("wins"));
@@ -313,7 +315,7 @@ public class DatabaseMutator {
 			System.out.println("sqle: " + sqle.getMessage());
 			sqle.printStackTrace();
 			sw = new StatWrapper(null, null, null, null, null, 
-					null, "FAILED: SQL_ERROR");
+					null, null, null, "FAILED: SQL_ERROR");
 		}
 		finally {
 			try {
