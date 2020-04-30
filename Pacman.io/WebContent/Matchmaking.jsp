@@ -188,7 +188,7 @@
       %>
    <script>
       function Cancel() {
-      	window.location.replace("https://cs201-pacman-io.herokuapp.com/User.jsp");
+      	window.location.replace("http://localhost:8080/Pacman.io/User.jsp");
       }
       
       function PlayAlone() {
@@ -196,7 +196,7 @@
       }
       
       function StartGame(port){
-    	  window.location.replace("https://cs201-pacman-io.herokuapp.com/gameWindow.jsp?portNum=" + port);
+    	  window.location.replace("http://localhost:8080/Pacman.io/gameWindow.jsp?portNum=" + port);
       }
       
       function JoinQueue(){

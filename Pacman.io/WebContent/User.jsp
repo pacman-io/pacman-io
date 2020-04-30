@@ -10,15 +10,15 @@
       %>
    <script>
       function Stats() {
-      	window.location.replace("https://cs201-pacman-io.herokuapp.com/Results.jsp");
+      	window.location.replace("http://localhost:8080/Pacman.io/Results.jsp");
       }
       
       function SignOut() {
-      	window.location.replace("https://cs201-pacman-io.herokuapp.com/SignOut");
+      	window.location.replace("http://localhost:8080/Pacman.io/SignOut");
       }
       
       function Play() {
-      	window.location.replace("https://cs201-pacman-io.herokuapp.com/Matchmaking.jsp");
+      	window.location.replace("http://localhost:8080/Pacman.io/Matchmaking.jsp");
       }
    </script>
    <link rel="shortcut icon" type="image/png" href="pacmanlogo.jpg">

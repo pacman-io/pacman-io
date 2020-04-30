@@ -398,7 +398,7 @@
       }
       
       function PlayAsGuest() {
-      	window.location.replace("https://cs201-pacman-io.herokuapp.com/TryLoginSignUp?type=play_as_guest");
+      	window.location.replace("http://localhost:8080/Pacman.io/TryLoginSignUp?type=play_as_guest");
       }
    </script>
    <body class="htmlNoPages">
