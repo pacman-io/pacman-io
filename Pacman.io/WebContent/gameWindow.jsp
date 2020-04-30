@@ -26,8 +26,8 @@
 	    	    Client.socket.emit('playermovemnet', data);
 	    	}
 
-	    	Client.removeDot = function(dot) {
-	    		Client.socket.emit('removedot', {x: dot.x, y: dot.y});
+	    	Client.removeDot = function(dot, id) {
+	    		Client.socket.emit('removedot', {x: dot.x, y: dot.y, id: id});
 	    	}
 
 	    	Client.killPacman = function(id) {
