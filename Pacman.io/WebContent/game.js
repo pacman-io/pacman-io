@@ -46,7 +46,7 @@ function create() {
     const tileset = this.map.addTilesetImage('coltiles');
     this.layer = this.map.createStaticLayer('MapLayer', tileset);
     this.map.setLayer('MapLayer');
-    this.layer.setAlpha(0.5);
+    this.layer.setAlpha(0);
     this.layer.setCollisionByProperty({ collides: true });
     
     this.pathFinder = new EasyStar.js(); //Initialize EasyStar pathFinder

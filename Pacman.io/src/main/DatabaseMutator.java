@@ -204,27 +204,40 @@ public class DatabaseMutator {
 				high_score = rs.getInt("highScore");
 				rs.close();
 				
-				PreparedStatement insert_statement = conn.prepareStatement("INSERT INTO PlayerStats "
-						+ "(userName, wins, losses, kills, deaths, score, highScore) VALUES (?, ?, ?, ?, ?, ?, ?)");
+				PreparedStatement update_statement = conn.prepareStatement("UPDATE PlayerStats "
+						+ "Set wins = ?, losses = ?, kills = ?, deaths = ?, score = ?, highScore = ? Where userName = ?;");
 				
-				insert_statement.setString(1, username);
-				insert_statement.setInt(2, current_wins + win);
-				insert_statement.setInt(3, current_losses + loss);
-				insert_statement.setInt(4, current_kills + kills);
-				insert_statement.setInt(5, current_deaths + deaths);
-				insert_statement.setInt(6, score);
+				update_statement.setString(7, username);
+				update_statement.setInt(1, current_wins + win);
+				update_statement.setInt(2, current_losses + loss);
+				update_statement.setInt(3, current_kills + kills);
+				update_statement.setInt(4, current_deaths + deaths);
+				update_statement.setInt(5, score);
 				
 				if(high_score == null) {
-					insert_statement.setInt(7, 0);
+					update_statement.setInt(6, 0);
 				}
 				else if(high_score < score) {
-					insert_statement.setInt(7, score);
+					update_statement.setInt(6, score);
+				}
+				else {
+					update_statement.setInt(6,  high_score);
 				}
 				
-				insert_statement.executeUpdate();
+				update_statement.executeUpdate();
 			}
 			else {
-				
+				rs.close();
+				PreparedStatement insert_statement = conn.prepareStatement("INSERT INTO PlayerStats "
+						+ "(userName, wins, losses, kills, deaths, score, highScore) VALUES (?, ?, ?, ?, ?, ?, ?)");
+				insert_statement.setString(1, username);
+				insert_statement.setInt(2, win);
+				insert_statement.setInt(3, loss);
+				insert_statement.setInt(4, kills);
+				insert_statement.setInt(5, deaths);
+				insert_statement.setInt(6, score);
+				insert_statement.setInt(7, score);
+				insert_statement.executeUpdate();
 			}
 			
 		} catch (SQLException sqle) {

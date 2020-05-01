@@ -26,5 +26,6 @@ public class StatWrapper {
 		this.kill_death_ratio = kill_death_ratio;
 		this.score = score;
 		this.high_score = high_score;
+		this.response_message = response_message;
 	}
 }

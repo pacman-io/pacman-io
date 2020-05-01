@@ -168,14 +168,14 @@
       	session_username = "";
       }
       
-      String wins = "null";
-      String losses = "null";
-      String games_played = "null";
-      String kills = "null";
-      String deaths = "null";
-      String kill_death_ratio = "null";
-      String score = "null";
-      String high_score = "null";
+      String wins = "1";
+      String losses = "0";
+      String games_played = "1";
+      String kills = "3";
+      String deaths = "0";
+      String kill_death_ratio = "nan";
+      String score = "3";
+      String high_score = "3";
       
       StatWrapper stats = DatabaseMutator.tryGetStats(session_username);
       
