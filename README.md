@@ -10,4 +10,8 @@ The Pacman player plays as the Pacman which is very much like the original Pacma
 ### Ghost
 The ghost player can control one ghost and switch between ghosts while the rest of the ghosts will be controlled by pathfinding AI.
 
+## Reminder
+
+**The game has to be run with proper configurations & a running [Pacman.io server](https://github.com/pacman-io/pacman-io-server)!**
+
 Thanks to [EasyStar.js](https://github.com/prettymuchbryce/easystarjs) for providing A* pathfinding API, [Socket.io](https://github.com/socketio/socket.io) for event-based communication system, and [Phaser.io](https://github.com/photonstorm/phaser) for providing the HTML5 game framework!
